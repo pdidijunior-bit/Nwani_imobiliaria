@@ -1,0 +1,6 @@
+{
+  "name": "Nwani Imóveis",
+  "description": "Plataforma imobiliária oficial da Nwani Imóveis em Angola. Venda, arrendamento, assessoria jurídica e consultoria de alto padrão.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "Property": {
+      "title": "Property",
+      "description": "Propriedade imobiliária da Nwani Imóveis",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "title": { "type": "string" },
+        "businessType": { "type": "string", "enum": ["Venda", "Arrendamento"] },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string", "enum": ["AOA", "USD", "EUR"] },
+        "negotiable": { "type": "boolean" },
+        "province": { "type": "string" },
+        "municipality": { "type": "string" },
+        "neighborhood": { "type": "string" },
+        "area": { "type": "number" },
+        "bedrooms": { "type": "number" },
+        "bathrooms": { "type": "number" },
+        "parking": { "type": "number" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "condition": { "type": "string" },
+        "status": { "type": "string" },
+        "isFeatured": { "type": "boolean" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "viewsCount": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "code", "title", "businessType", "category", "price", "currency", "province", "municipality", "area", "images", "createdAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Categoria de imóveis",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "name", "slug"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Definições e contactos institucionais do website",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "address": { "type": "string" },
+        "mission": { "type": "string" },
+        "vision": { "type": "string" },
+        "history": { "type": "string" }
+      },
+      "required": ["title", "phone", "whatsapp", "address"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Atendimento e mensagens de chat em tempo real",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "clientName": { "type": "string" },
+        "clientPhone": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "lastUpdated": { "type": "number" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "clientName", "lastMessage", "lastUpdated"]
+    },
+    "PropertyAlert": {
+      "title": "PropertyAlert",
+      "description": "Alertas cadastrados por clientes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessType": { "type": "string" },
+        "contact": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "businessType", "contact", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/properties/{propertyId}": {
+      "schema": "Property",
+      "description": "Coleção de propriedades imobiliárias"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Categorias de imóveis"
+    },
+    "/site_settings/{settingId}": {
+      "schema": "SiteSettings",
+      "description": "Configurações institucionais do site"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Conversas de atendimento"
+    },
+    "/alerts/{alertId}": {
+      "schema": "PropertyAlert",
+      "description": "Alertas cadastrados por visitantes"
+    }
+  }
+}
