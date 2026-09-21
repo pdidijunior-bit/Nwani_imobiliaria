@@ -154,17 +154,16 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
         <button
           id="chat-open-btn"
           onClick={onToggleOpen}
-          className="relative group flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-stone-950 font-bold text-xs sm:text-sm shadow-2xl hover:shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
+          className="relative group flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white font-bold text-xs sm:text-sm shadow-2xl hover:shadow-red-500/30 hover:scale-105 active:scale-95 transition-all duration-300"
           aria-label="Abrir Chat Online"
         >
-          {/* Pulsing Green Online Indicator */}
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+          {/* Steady Green Online Indicator */}
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-sm" />
           </span>
 
-          <MessageCircle className="w-5 h-5" />
-          <span className="tracking-wide">Atendimento Online</span>
+          <MessageCircle className="w-5 h-5 text-white" />
+          <span className="tracking-wide">Atendimento Online D&D</span>
         </button>
       )}
 

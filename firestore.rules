@@ -2,61 +2,128 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions
+    // ==========================================
+    // HELPER FUNCTIONS & ROLE-BASED ACCESS CONTROL (RBAC)
+    // ==========================================
+    
     function isAuthenticated() {
       return request.auth != null;
     }
 
-    // 1. PROPRIEDADES (Catálogo Imobiliário em Tempo Real)
-    // Permite leitura pública e gravação/publicação imediata de imóveis.
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Checks if the authenticated user has role === 'admin' in their /users document
+    function isAdmin() {
+      return isAuthenticated() && (
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+        request.auth.token.email in ['dd.solucoesimobiliaria91@gmail.com', 'admin@victoriadd.ao', 'admin@dd.ao']
+      );
+    }
+
+    // ==========================================
+    // 1. USUÁRIOS & PERFIS (RBAC)
+    // ==========================================
+    match /users/{userId} {
+      // Usuário autenticado pode ler seu próprio documento; Admins podem ler todos
+      allow read: if isOwner(userId) || isAdmin();
+
+      // No registro: usuário só pode criar o seu próprio documento com role "user"
+      allow create: if isOwner(userId) && 
+        (request.resource.data.role == 'user' || isAdmin());
+
+      // Na atualização: usuário não pode se auto-promover a "admin"; apenas Admins podem alterar role
+      allow update: if isOwner(userId) && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']))
+        || isAdmin();
+
+      // Exclusão permitida apenas por administradores
+      allow delete: if isAdmin();
+    }
+
+    // ==========================================
+    // 2. PROPRIEDADES (Catálogo Imobiliário)
+    // ==========================================
     match /properties/{propertyId} {
-      allow read, write: if true;
+      // Leitura pública irrestrita para compradores e visitantes
+      allow read: if true;
+
+      // Criação, alteração e remoção restrita a Administradores da Victória D&D
+      allow write: if isAdmin();
     }
 
-    // 2. CATEGORIAS DE IMÓVEIS
+    // ==========================================
+    // 3. CATEGORIAS DE IMÓVEIS
+    // ==========================================
     match /categories/{categoryId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // 3. CONFIGURAÇÕES DO SITE & CONTACTOS OFICIAIS
+    // ==========================================
+    // 4. CONFIGURAÇÕES INSTITUCIONAIS DO SITE
+    // ==========================================
     match /site_settings/{settingId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // 4. SLIDES DO BANNER HERO
+    // ==========================================
+    // 5. SLIDES DO BANNER HERO
+    // ==========================================
     match /hero_slides/{slideId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // 5. MENSAGENS DO MARQUEE (BARRA SUPERIOR)
+    // ==========================================
+    // 6. MENSAGENS DO MARQUEE (BARRA SUPERIOR)
+    // ==========================================
     match /marquee_items/{itemId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // 6. CHAT DE ATENDIMENTO ONLINE & CONVERSAS
+    // ==========================================
+    // 7. ATENDIMENTO ONLINE & CONVERSAS
+    // ==========================================
     match /conversations/{conversationId} {
-      allow read, write: if true;
+      // Clientes podem criar suas próprias mensagens de suporte
+      allow read, create, update: if true;
+      allow delete: if isAdmin();
     }
 
-    // 7. ALERTAS DE IMÓVEIS (Área do Cliente)
+    // ==========================================
+    // 8. ALERTAS DE IMÓVEIS (Área do Cliente)
+    // ==========================================
     match /alerts/{alertId} {
-      allow read, write: if true;
+      allow read: if isAuthenticated() && (resource == null || resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
     }
 
-    // 8. NOTIFICAÇÕES DO SISTEMA
+    // ==========================================
+    // 9. NOTIFICAÇÕES DO SISTEMA
+    // ==========================================
     match /notifications/{notificationId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // 9. TESTE DE CONEXÃO
+    // ==========================================
+    // 10. TESTE DE CONECTIVIDADE
+    // ==========================================
     match /test/{docId} {
       allow read, write: if true;
     }
 
-    // Regra padrão de fallback
+    // ==========================================
+    // REGRA PADRÃO DE FALLBACK
+    // ==========================================
     match /{document=**} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
-
   }
 }

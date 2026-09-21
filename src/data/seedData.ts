@@ -1,8 +1,11 @@
 import { Property, Category, LocationItem, SiteSettings, HeroSlide, MarqueeItem } from "../types";
 import {
   COMPANY_NAME,
+  COMPANY_SLOGAN,
+  HERO_HEADLINE,
   PHONE_DISPLAY,
   WHATSAPP_DISPLAY,
+  EMAIL_OFFICIAL,
   INSTAGRAM_HANDLE,
   WEBSITE_LINK,
   OFFICIAL_ADDRESS,
@@ -23,10 +26,10 @@ export const INITIAL_CATEGORIES: Category[] = [
 
 export const INITIAL_LOCATIONS: LocationItem[] = [
   {
-    id: "loc-luanda-maianga",
+    id: "loc-luanda-21jan",
     province: "Luanda",
-    municipality: "Maianga",
-    neighborhoods: ["Maianga", "Alvalade", "Cassenda", "Prenda", "Cruzeiro"],
+    municipality: "Luanda",
+    neighborhoods: ["Av. 21 de Janeiro", "Morro Bento", "Rocha Pinto", "Aeroporto", "Maianga"],
   },
   {
     id: "loc-talatona",
@@ -47,6 +50,12 @@ export const INITIAL_LOCATIONS: LocationItem[] = [
     neighborhoods: ["Kilamba", "Benfica Sul", "Morro Bento"],
   },
   {
+    id: "loc-benguela",
+    province: "Benguela",
+    municipality: "Benguela",
+    neighborhoods: ["Centro", "Praia Morena", "Lobito"],
+  },
+  {
     id: "loc-malanje",
     province: "Malanje",
     municipality: "Malanje",
@@ -56,8 +65,8 @@ export const INITIAL_LOCATIONS: LocationItem[] = [
 
 export const INITIAL_SITE_SETTINGS: SiteSettings = {
   companyName: COMPANY_NAME,
-  title: "Nwani Imóveis",
-  subtitle: "Excelência e Rigor no Mercado Imobiliário Angolano",
+  title: COMPANY_NAME,
+  subtitle: COMPANY_SLOGAN,
   marquee: {
     enabled: true,
     text: DEFAULT_MARQUEE_TEXT,
@@ -67,11 +76,13 @@ export const INITIAL_SITE_SETTINGS: SiteSettings = {
   history: DEFAULT_HISTORY,
   phone: PHONE_DISPLAY,
   whatsapp: WHATSAPP_DISPLAY,
+  email: EMAIL_OFFICIAL,
   address: OFFICIAL_ADDRESS.full,
   latitude: OFFICIAL_ADDRESS.latitude,
   longitude: OFFICIAL_ADDRESS.longitude,
   instagram: INSTAGRAM_HANDLE,
   website: WEBSITE_LINK,
+  schedule: "Segunda a Sábado: 08:00 às 18:00",
 };
 
 // No fictitious or mock properties: Clean and ready for real-time data entry
@@ -79,11 +90,11 @@ export const INITIAL_PROPERTIES: Property[] = [];
 
 export const INITIAL_HERO_SLIDES: HeroSlide[] = [
   {
-    id: "slide-official",
-    title: "Nwani Imóveis • Luanda, Angola",
-    subtitle: "Soluções imobiliárias de alto padrão com rigor documental, segurança jurídica e discrição absoluta.",
-    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85",
-    badge: "Imobiliária Oficial",
+    id: "slide-dd-official",
+    title: "Victória D&D Soluções Imobiliárias",
+    subtitle: "Comprar e Vender imóvel em Angola? FICOU MUITO MAIS FÁCIL!!! Vendas, Trespasse, Avaliação e Permutas.",
+    imageUrl: "/vivenda-bg.jpg",
+    badge: "Soluções Imobiliárias Oficiais",
     order: 1,
     active: true,
   }
@@ -92,13 +103,13 @@ export const INITIAL_HERO_SLIDES: HeroSlide[] = [
 export const INITIAL_MARQUEE_ITEMS: MarqueeItem[] = [
   {
     id: "mq-1",
-    text: "Nwani Imóveis • Consultoria imobiliária de excelência em Luanda e em toda Angola",
+    text: "Victória D&D Soluções Imobiliárias • Arrendamentos, Compras e Vendas de Imóveis em Angola",
     order: 1,
     active: true,
   },
   {
     id: "mq-2",
-    text: "Atendimento oficial em Maianga, Luanda • WhatsApp: +244 939 325 804",
+    text: "Atendimento oficial: Av. 21 de Janeiro, Luanda • WhatsApp: +244 923 890 391",
     order: 2,
     active: true,
   }

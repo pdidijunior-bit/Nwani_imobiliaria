@@ -10,10 +10,16 @@ import {
   Building,
   KeyRound,
   FileText,
-  UserCheck
+  UserCheck,
+  MessageCircle,
+  LogIn
 } from "lucide-react";
 import { Logo } from "./Logo";
-import { PHONE_DISPLAY, PHONE_TEL_LINK } from "../constants/config";
+import {
+  PHONE_DISPLAY,
+  PHONE_TEL_LINK,
+  WHATSAPP_LINK
+} from "../constants/config";
 
 interface NavbarProps {
   currentTheme: "dark" | "light";
@@ -25,6 +31,7 @@ interface NavbarProps {
   onOpenSobreNos?: () => void;
   onOpenTermos?: () => void;
   onOpenAdmin?: () => void;
+  onOpenAuth?: () => void;
   onNavigateToCatalog?: (filterType?: "all" | "Venda" | "Arrendamento") => void;
 }
 
@@ -38,6 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSobreNos,
   onOpenTermos,
   onOpenAdmin,
+  onOpenAuth,
   onNavigateToCatalog,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -59,13 +67,21 @@ export const Navbar: React.FC<NavbarProps> = ({
     setMobileMenuOpen(false);
   };
 
+  const handleAuthOrAdmin = () => {
+    if (typeof onOpenAuth === "function") {
+      onOpenAuth();
+    } else if (typeof onOpenAdmin === "function") {
+      onOpenAdmin();
+    }
+  };
+
   return (
     <header
       id="main-header"
-      className={`sticky top-0 z-40 backdrop-blur-md border-b transition-colors duration-200 ${
+      className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-200 ${
         currentTheme === "dark"
-          ? "bg-stone-950/90 border-stone-800/80 text-stone-100"
-          : "bg-white/95 border-stone-200 text-stone-900 shadow-sm"
+          ? "bg-slate-950/90 border-slate-800 text-slate-100"
+          : "bg-white/95 border-slate-200 text-slate-900 shadow-sm"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="nav-link-catalog"
               type="button"
               onClick={() => onNavigateToCatalog?.("all")}
-              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-amber-400 transition-colors"
+              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
               Catálogo
             </button>
@@ -92,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="nav-link-venda"
               type="button"
               onClick={() => onNavigateToCatalog?.("Venda")}
-              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-amber-400 transition-colors"
+              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
               Comprar
             </button>
@@ -100,39 +116,67 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="nav-link-arrendamento"
               type="button"
               onClick={() => onNavigateToCatalog?.("Arrendamento")}
-              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-amber-400 transition-colors"
+              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
               Arrendar
             </button>
             <button
-              id="nav-link-sobre"
+              id="nav-link-apresentacao"
               type="button"
-              onClick={() => onOpenSobreNos?.()}
-              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-amber-400 transition-colors"
+              onClick={() => {
+                const el = document.getElementById("apresentacao-institucional");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                } else if (onOpenSobreNos) {
+                  onOpenSobreNos();
+                }
+              }}
+              className="px-3 py-2 rounded-lg text-sm font-semibold text-red-500 hover:text-red-400 transition-colors cursor-pointer"
+            >
+              Apresentação
+            </button>
+            <button
+              id="nav-link-sobrenos"
+              type="button"
+              onClick={onOpenSobreNos}
+              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
               Sobre Nós
             </button>
             <button
               id="nav-link-termos"
               type="button"
-              onClick={() => onOpenTermos?.()}
-              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-amber-400 transition-colors"
+              onClick={onOpenTermos}
+              className="px-3 py-2 rounded-lg text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
               Termos & Condições
             </button>
           </nav>
 
           {/* Right Action Icons & Direct Contacts */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2.5">
+            {/* WhatsApp button */}
+            <a
+              id="nav-btn-whatsapp"
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-600/40 text-xs font-semibold text-emerald-300 transition-all cursor-pointer"
+              title="Falar pelo WhatsApp"
+            >
+              <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>WhatsApp</span>
+            </a>
+
             {/* Phone button */}
             <a
               id="nav-btn-phone"
               href={PHONE_TEL_LINK}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-900/60 hover:bg-stone-800 border border-stone-800 hover:border-amber-500/50 text-xs font-semibold tracking-wider transition-all"
-              title="Ligue para a Nwani Imóveis"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-red-500/50 text-xs font-semibold tracking-wider transition-all"
+              title="Ligar para Victória D&D"
             >
-              <Phone className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-stone-200">{PHONE_DISPLAY}</span>
+              <Phone className="w-3.5 h-3.5 text-red-500" />
+              <span className="text-slate-200">{PHONE_DISPLAY}</span>
             </a>
 
             {/* Client Area (Favorites & Alerts) */}
@@ -140,17 +184,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="nav-btn-client-area"
               type="button"
               onClick={() => handleClientAreaClick("favorites")}
-              className={`relative p-2.5 rounded-lg border transition-all ${
+              className={`relative p-2.5 rounded-lg border transition-all cursor-pointer ${
                 currentTheme === "dark"
-                  ? "bg-stone-900 hover:bg-stone-800 border-stone-800 text-stone-300"
-                  : "bg-stone-100 hover:bg-stone-200 border-stone-300 text-stone-700"
+                  ? "bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300"
+                  : "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700"
               }`}
               title="Área do Cliente & Favoritos"
               aria-label="Área do Cliente"
             >
-              <Heart className={`w-4 h-4 ${favoritesCount > 0 ? "text-amber-500 fill-amber-500" : ""}`} />
+              <Heart className={`w-4 h-4 ${favoritesCount > 0 ? "text-red-500 fill-red-500" : ""}`} />
               {favoritesCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full bg-amber-500 text-stone-950">
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full bg-red-600 text-white">
                   {favoritesCount}
                 </span>
               )}
@@ -161,10 +205,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="nav-btn-theme-toggle"
               type="button"
               onClick={onToggleTheme}
-              className={`p-2.5 rounded-lg border transition-colors ${
+              className={`p-2.5 rounded-lg border transition-colors cursor-pointer ${
                 currentTheme === "dark"
-                  ? "bg-stone-900 hover:bg-stone-800 border-stone-800 text-amber-400"
-                  : "bg-stone-100 hover:bg-stone-200 border-stone-300 text-amber-600"
+                  ? "bg-slate-900 hover:bg-slate-800 border-slate-700 text-red-400"
+                  : "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800"
               }`}
               title={currentTheme === "dark" ? "Mudar para Tema Claro" : "Mudar para Tema Escuro"}
               aria-label="Alternar Tema"
@@ -172,26 +216,38 @@ export const Navbar: React.FC<NavbarProps> = ({
               {currentTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* Admin Portal Button */}
+            {/* Login / Admin Modal Button */}
             <button
               id="nav-btn-admin"
               type="button"
-              onClick={() => onOpenAdmin?.()}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-bold text-xs tracking-wider shadow-sm transition-all"
-              title="Painel Administrativo"
+              onClick={handleAuthOrAdmin}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs tracking-wider shadow-md transition-all cursor-pointer"
+              title="Acesso Conta / Admin"
             >
-              <KeyRound className="w-3.5 h-3.5" />
-              <span>Painel</span>
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Entrar</span>
             </button>
           </div>
 
           {/* Mobile Right Controls */}
           <div className="flex items-center gap-2 lg:hidden">
+            {/* Quick WhatsApp */}
+            <a
+              id="mobile-nav-btn-wa"
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-700/60 text-emerald-400"
+              aria-label="WhatsApp Victória D&D"
+            >
+              <MessageCircle className="w-4 h-4" />
+            </a>
+
             {/* Quick Phone */}
             <a
               id="mobile-nav-btn-call"
               href={PHONE_TEL_LINK}
-              className="p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-amber-400"
+              className="p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-red-500"
               aria-label="Ligar para a Imobiliária"
             >
               <Phone className="w-4 h-4" />
@@ -202,12 +258,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="mobile-nav-btn-fav"
               type="button"
               onClick={() => handleClientAreaClick("favorites")}
-              className="relative p-2.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200"
+              className="relative p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200"
               aria-label="Ver Favoritos"
             >
-              <Heart className={`w-4 h-4 ${favoritesCount > 0 ? "text-amber-500 fill-amber-500" : ""}`} />
+              <Heart className={`w-4 h-4 ${favoritesCount > 0 ? "text-red-500 fill-red-500" : ""}`} />
               {favoritesCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[9px] font-bold rounded-full bg-amber-500 text-stone-950">
+                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[9px] font-bold rounded-full bg-red-600 text-white">
                   {favoritesCount}
                 </span>
               )}
@@ -220,8 +276,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`p-2.5 rounded-lg border ${
                 currentTheme === "dark"
-                  ? "bg-stone-900 border-stone-800 text-stone-200"
-                  : "bg-stone-100 border-stone-300 text-stone-800"
+                  ? "bg-slate-900 border-slate-700 text-slate-200"
+                  : "bg-slate-100 border-slate-300 text-slate-800"
               }`}
               aria-label="Abrir Menu"
             >
@@ -235,82 +291,99 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div
           id="mobile-drawer"
-          className="lg:hidden fixed inset-x-0 top-[80px] bottom-0 bg-stone-950/95 backdrop-blur-xl border-t border-stone-800 p-6 flex flex-col justify-between z-50 overflow-y-auto"
+          className="lg:hidden fixed inset-x-0 top-[80px] bottom-0 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 p-6 flex flex-col justify-between z-50 overflow-y-auto"
         >
           <div className="space-y-3">
-            <div className="pb-4 mb-2 border-b border-stone-800/80">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-amber-400">Navegação Principal</span>
+            <div className="pb-4 mb-2 border-b border-slate-800/80">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-red-500">
+                Victória D&D Soluções Imobiliárias
+              </span>
             </div>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("all"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
-              <Building className="w-5 h-5 text-amber-400" />
+              <Building className="w-5 h-5 text-red-500" />
               <span>Ver Catálogo Completo</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("Venda"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
-              <Building className="w-5 h-5 text-amber-400" />
+              <Building className="w-5 h-5 text-red-500" />
               <span>Imóveis para Comprar</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("Arrendamento"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
-              <KeyRound className="w-5 h-5 text-amber-400" />
+              <KeyRound className="w-5 h-5 text-red-500" />
               <span>Imóveis para Arrendar</span>
             </button>
 
             <button
               type="button"
-              onClick={() => handleNavClick(onOpenSobreNos)}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              onClick={() => {
+                handleNavClick(() => {
+                  const el = document.getElementById("apresentacao-institucional");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                  else onOpenSobreNos?.();
+                });
+              }}
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
-              <ShieldCheck className="w-5 h-5 text-amber-400" />
-              <span>Sobre a Nwani Imóveis</span>
+              <ShieldCheck className="w-5 h-5 text-red-500" />
+              <span>Apresentação Institucional D&D</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleNavClick(onOpenSobreNos)}
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+            >
+              <ShieldCheck className="w-5 h-5 text-red-500" />
+              <span>Sobre a Victória D&D</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(onOpenTermos)}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
-              <FileText className="w-5 h-5 text-amber-400" />
+              <FileText className="w-5 h-5 text-red-500" />
               <span>Termos de Uso e Legislação</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => handleClientAreaClick("favorites"))}
-              className="w-full flex items-center justify-between py-3 px-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 border border-stone-800 text-stone-100 text-left font-medium"
+              className="w-full flex items-center justify-between py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
             >
               <div className="flex items-center gap-3">
-                <UserCheck className="w-5 h-5 text-amber-400" />
-                <span>Área do Cliente / Alertas</span>
+                <UserCheck className="w-5 h-5 text-red-500" />
+                <span>Área do Cliente / Favoritos</span>
               </div>
               {favoritesCount > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-stone-950">
+                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-red-600 text-white">
                   {favoritesCount}
                 </span>
               )}
             </button>
           </div>
 
-          <div className="pt-6 border-t border-stone-800 space-y-3">
+          <div className="pt-6 border-t border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-stone-400">Alternar Tema</span>
+              <span className="text-xs text-slate-400">Alternar Tema</span>
               <button
                 type="button"
                 onClick={onToggleTheme}
-                className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-amber-400"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-red-400"
               >
                 {currentTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
@@ -319,11 +392,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="mobile-drawer-admin-btn"
               type="button"
-              onClick={() => handleNavClick(onOpenAdmin)}
-              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 text-stone-950 font-bold flex items-center justify-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all"
+              onClick={() => handleNavClick(handleAuthOrAdmin)}
+              className="w-full py-3.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
             >
-              <KeyRound className="w-4 h-4" />
-              <span>Acessar Painel Administrativo</span>
+              <LogIn className="w-4 h-4" />
+              <span>Entrar na Conta / Painel</span>
             </button>
           </div>
         </div>

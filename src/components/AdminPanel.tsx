@@ -777,8 +777,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 <div className="flex items-center gap-3 bg-stone-900 border border-stone-800 px-3.5 py-2 rounded-xl text-xs">
                   <div className="flex items-center gap-2">
                     <span className="relative flex h-2.5 w-2.5">
-                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${dbStatus.connected ? "bg-emerald-400" : "bg-amber-400"}`} />
-                      <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${dbStatus.connected ? "bg-emerald-500" : "bg-amber-500"}`} />
+                      <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${dbStatus.connected ? "bg-emerald-500 shadow-sm" : "bg-amber-500 shadow-sm"}`} />
                     </span>
                     <span className="font-semibold text-stone-200">
                       Firebase: {dbStatus.connected ? "Conectado" : "Aguardando"}

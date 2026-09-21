@@ -1,54 +1,88 @@
 /**
- * Centralized Configuration & Official Data for NWANI IMÓVEIS
- * Adheres strictly to Official Company Identity:
- * - Name: NWANI IMÓVEIS
- * - Phone: +244 939 325 804
- * - WhatsApp: +244 939 325 804 / https://wa.me/244939325804
- * - Instagram: @nwani_imobiliaria_ / https://www.instagram.com/nwani_imobiliaria_/
- * - Alternate handle: @Nwani.imoveis
- * - Website: www.nwaniimoveis.com / https://www.nwaniimoveis.com
- * - Official Address: Rua do Padre Francisco Gouveia, Maianga, Luanda, Angola
- * - Coordinates: -8.82768, 13.22719
+ * Centralized Configuration & Official Data for VICTÓRIA D&D SOLUÇÕES IMOBILIÁRIAS
+ * Identity & Official Info from Official Portfolio:
+ * - Name: VICTÓRIA D&D SOLUÇÕES IMOBILIÁRIAS
+ * - Slogan: "VENDAS * TRESPASSE * AVALIAÇÃO * PERMUTAS"
+ * - Headline: "Comprar e Vender imóvel em Angola? FICOU MUITO MAIS FÁCIL!!!"
+ * - Phone / WhatsApp: +244 923 890 391
+ * - WhatsApp Link: https://wa.me/244923890391
+ * - Email: dd.solucoesimobiliaria91@gmail.com
+ * - Official Address: Av. 21 de Janeiro, Luanda, Angola
+ * - Socials: D&D Soluções Imobiliárias (Facebook, Instagram, TikTok)
  */
 
-export const COMPANY_NAME = "Nwani Imóveis";
-export const COMPANY_CATEGORY = "Serviço imobiliário / Imobiliária";
-export const ADMIN_DEFAULT_EMAIL = "admin@nwaniimoveis.com";
+export const COMPANY_NAME = "Victória D&D Soluções Imobiliárias";
+export const COMPANY_SHORT_NAME = "D&D Soluções Imobiliárias";
+export const COMPANY_CATEGORY = "Vendas • Trespasse • Avaliação • Permutas";
+export const COMPANY_SLOGAN = "VENDAS * TRESPASSE * AVALIAÇÃO * PERMUTAS";
+export const HERO_HEADLINE = "Comprar e Vender imóvel em Angola? FICOU MUITO MAIS FÁCIL!!!";
 
-export const PHONE_RAW = "+244939325804";
-export const PHONE_DISPLAY = "+244 939 325 804";
-export const PHONE_TEL_LINK = "tel:+244939325804";
+export const ADMIN_DEFAULT_EMAIL = "dd.solucoesimobiliaria91@gmail.com";
 
-export const WHATSAPP_RAW = "+244939325804";
-export const WHATSAPP_DISPLAY = "+244 939 325 804";
-export const WHATSAPP_LINK = "https://wa.me/244939325804";
+export const PHONE_RAW = "+244923890391";
+export const PHONE_DISPLAY = "+244 923 890 391";
+export const PHONE_TEL_LINK = "tel:+244923890391";
 
-export const INSTAGRAM_HANDLE = "@nwani_imobiliaria_";
-export const INSTAGRAM_HANDLE_ALT = "@Nwani.imoveis";
-export const INSTAGRAM_LINK = "https://www.instagram.com/nwani_imobiliaria_/";
+export const WHATSAPP_RAW = "+244923890391";
+export const WHATSAPP_DISPLAY = "+244 923 890 391";
+export const WHATSAPP_LINK = "https://wa.me/244923890391";
 
-export const WEBSITE_DISPLAY = "nwani-imoveis.vercel.app";
-export const WEBSITE_LINK = "https://nwani-imoveis.vercel.app/";
+export const EMAIL_OFFICIAL = "dd.solucoesimobiliaria91@gmail.com";
+
+export const INSTAGRAM_HANDLE = "D&D Soluções Imobiliárias";
+export const INSTAGRAM_LINK = "https://www.instagram.com/";
+export const FACEBOOK_HANDLE = "D&D Soluções Imobiliárias";
+export const TIKTOK_HANDLE = "D&D Soluções Imobiliárias";
+
+export const WEBSITE_DISPLAY = "victoriadd-imoveis.com";
+export const WEBSITE_LINK = "https://victoriadd-imoveis.com/";
 
 export const OFFICIAL_ADDRESS = {
-  street: "Rua do Padre Francisco Gouveia",
-  neighborhood: "Maianga",
+  street: "Av. 21 de Janeiro",
+  neighborhood: "Morro Bento / Rocha Pinto",
   city: "Luanda",
   country: "Angola",
-  full: "Rua do Padre Francisco Gouveia, Maianga, Luanda, Angola",
-  latitude: -8.82768,
-  longitude: 13.22719,
+  full: "Av. 21 de Janeiro, Luanda, Angola",
+  latitude: -8.8789,
+  longitude: 13.2087,
 };
 
 export const DEFAULT_CURRENCY = "AOA";
 export const CURRENCY_SYMBOL = "Kz";
 export const CURRENCY_LOCALE = "pt-AO";
 
-export const DEFAULT_MARQUEE_TEXT = "Oportunidades exclusivas de alto padrão em Luanda e em toda Angola • Consultoria imobiliária com rigor e segurança jurídica • Fale connosco pelo WhatsApp ou ligue diretamente";
+export const DEFAULT_MARQUEE_TEXT = "Victória D&D Soluções Imobiliárias: Comprar e Vender imóvel em Angola? Ficou muito mais fácil! Vendas • Trespasse • Avaliação • Permutas • Atendimento imediato pelo WhatsApp: +244 923 890 391";
 
-export const DEFAULT_MISSION = "Proporcionar soluções imobiliárias de excelência em Angola com máxima segurança jurídica, transparência e atendimento de alto padrão para compradores, arrendatários e investidores.";
-export const DEFAULT_VISION = "Ser a imobiliária de referência em Angola para propriedades de alto padrão e investimentos imobiliários com integridade e prestígio.";
-export const DEFAULT_HISTORY = "A Nwani Imóveis nasceu para elevar os padrões do mercado imobiliário em Angola, unindo rigor jurídico, atendimento personalizado e um portfólio selecionado de propriedades de excelência.";
+export const DEFAULT_SOBRE_NOS = "Somos Victória D&D soluções imobiliário, trabalhamos com Arrendamentos, Compras e Vendas imóvel em Angola. Contamos com agentes profissionais empenhados em promover os imóveis dos nossos clientes, fazendo sempre um estudo de mercado sério e realista, no sentido de proporcionarmos aos nossos clientes uma venda rápida e eficiente do seu imóvel.";
+
+export const DEFAULT_MISSION = "Dinamizar o mercado imobiliário nacional, oferecendo soluções em negócios imobiliários inovadoras, com serviços diferenciados de forma segura e legal, satisfazendo assim as expectativas dos clientes.";
+
+export const DEFAULT_FIDELIDADE = "Se pretende arrendar, comprar ou vender casas, prédios, lojas ou escritórios, somos o seu parceiro de confiança.";
+
+export const DEFAULT_VALORES = [
+  "Dinamismo",
+  "Honestidade",
+  "Coragem",
+  "Organização",
+  "Transparência",
+  "Responsabilidade"
+];
+
+export const DEFAULT_SERVICOS = [
+  "Escritórios",
+  "Residencial",
+  "Industrial & Logística",
+  "Retalho",
+  "Investimento",
+  "Tenant Representation",
+  "Avaliações de imóveis e equipamentos",
+  "Consultoria & Research",
+  "Gestão de Imóveis",
+  "Assessoria Documental"
+];
+
+export const DEFAULT_VISION = "Ser a referência imobiliária de maior credibilidade e agilidade em Angola em soluções inovadoras de compra, venda, trespasse, avaliação e permutas de imóveis.";
+export const DEFAULT_HISTORY = DEFAULT_SOBRE_NOS;
 
 // Official Firebase Config
 export const FIREBASE_CONFIG = {

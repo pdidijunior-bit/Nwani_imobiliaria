@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Search, Building, SlidersHorizontal, MapPin, Sparkles, Shield, ArrowRight } from "lucide-react";
+import { Search, Building, SlidersHorizontal, MapPin, Sparkles, Shield, ArrowRight, MessageCircle, Phone } from "lucide-react";
 import { BusinessType, Category } from "../types";
+import {
+  COMPANY_NAME,
+  COMPANY_SLOGAN,
+  HERO_HEADLINE,
+  WHATSAPP_LINK,
+  PHONE_DISPLAY,
+  PHONE_TEL_LINK
+} from "../constants/config";
 
 interface HeroProps {
   slides?: any[];
@@ -59,46 +67,76 @@ export const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section id="hero-section" className="relative bg-stone-950 text-white overflow-hidden py-16 lg:py-24 border-b border-stone-800">
-      {/* Subtle architectural background overlay */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:28px_28px]" />
-      
-      {/* Atmospheric luxury glows */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-amber-600/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+    <section
+      id="hero-section"
+      className="relative bg-slate-950 text-white overflow-hidden py-16 lg:py-24 border-b border-slate-800"
+      style={{
+        backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.82) 0%, rgba(10, 15, 30, 0.90) 50%, rgba(2, 6, 23, 0.97) 100%), url('/vivenda-bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center 30%",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "scroll",
+      }}
+    >
+      {/* Dynamic atmospheric subtle glow */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 -right-32 w-96 h-96 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          {/* Subtle badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-900/90 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-6 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Mercado Imobiliário Premium em Angola</span>
+        <div className="text-center max-w-4xl mx-auto mb-10">
+          {/* Slogan & Category Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-red-500/40 text-red-400 text-xs font-bold tracking-widest uppercase mb-6 shadow-xl backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-red-500" />
+            <span>{COMPANY_SLOGAN}</span>
           </div>
 
-          <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase leading-tight mb-4">
-            <span className="text-white block">{title || "Nwani Imóveis"}</span>
-            <span className="text-gold-gradient block mt-1 text-2xl sm:text-4xl lg:text-5xl font-bold">
-              Imóveis de Prestígio & Confiança
+          {/* Main Hero Headline from Image */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-4 drop-shadow-lg">
+            <span className="text-white block">{HERO_HEADLINE}</span>
+            <span className="block mt-2 text-red-600 text-2xl sm:text-4xl lg:text-5xl font-extrabold uppercase">
+              {title || COMPANY_NAME}
             </span>
           </h1>
 
-          <p className="text-stone-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-normal">
+          <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-normal drop-shadow-md">
             {subtitle ||
-              "Encontre imóveis residenciais, comerciais e investimentos de alto padrão em Luanda e em todo o território angolano com assessoria rigorosa e segurança jurídica."}
+              "Encontre vivendas, apartamentos, escritórios, terrenos e oportunidades de investimento em Luanda e em todo o território nacional com rigor, agilidade e máxima segurança legal."}
           </p>
+
+          {/* Quick Direct Buttons */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a
+              id="hero-quick-whatsapp"
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg transition-all hover:scale-105"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>WhatsApp: {PHONE_DISPLAY}</span>
+            </a>
+            <a
+              id="hero-quick-call"
+              href={PHONE_TEL_LINK}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-xs sm:text-sm backdrop-blur-md transition-all"
+            >
+              <Phone className="w-4 h-4 text-red-400" />
+              <span>Ligar Diretamente</span>
+            </a>
+          </div>
         </div>
 
         {/* High-Precision Search Box */}
-        <div className="max-w-4xl mx-auto bg-stone-900/90 border border-stone-800 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-slate-900/85 border border-slate-700/80 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-2xl">
           {/* Quick Business Type Tabs */}
-          <div className="flex items-center gap-2 mb-4 border-b border-stone-800 pb-3">
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
             <button
               type="button"
               onClick={() => setBusinessType("")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 businessType === ""
-                  ? "bg-amber-500 text-stone-950 shadow-md"
-                  : "bg-stone-800/80 text-stone-300 hover:bg-stone-800"
+                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
+                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
               }`}
             >
               Todos os Negócios
@@ -106,10 +144,10 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={() => setBusinessType("Venda")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 businessType === "Venda"
-                  ? "bg-amber-500 text-stone-950 shadow-md"
-                  : "bg-stone-800/80 text-stone-300 hover:bg-stone-800"
+                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
+                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
               }`}
             >
               Comprar
@@ -117,10 +155,10 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={() => setBusinessType("Arrendamento")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 businessType === "Arrendamento"
-                  ? "bg-amber-500 text-stone-950 shadow-md"
-                  : "bg-stone-800/80 text-stone-300 hover:bg-stone-800"
+                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
+                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
               }`}
             >
               Arrendar
@@ -131,14 +169,14 @@ export const Hero: React.FC<HeroProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
               {/* Search text input */}
               <div className="md:col-span-5 relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="hero-input-search"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Bairro, condomínio, código NWI..."
-                  className="w-full pl-10 pr-4 py-3 bg-stone-950 border border-stone-800 rounded-xl text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-amber-500 transition-colors"
+                  placeholder="Bairro, condomínio, código D&D..."
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
                 />
               </div>
 
@@ -148,7 +186,7 @@ export const Hero: React.FC<HeroProps> = ({
                   id="hero-select-category"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-3 py-3 bg-stone-950 border border-stone-800 rounded-xl text-sm text-stone-200 focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full px-3 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-colors"
                 >
                   <option value="">Todas Categorias</option>
                   {categories.map((c) => (
@@ -165,13 +203,15 @@ export const Hero: React.FC<HeroProps> = ({
                   id="hero-select-province"
                   value={selectedProvince}
                   onChange={(e) => setSelectedProvince(e.target.value)}
-                  className="w-full px-3 py-3 bg-stone-950 border border-stone-800 rounded-xl text-sm text-stone-200 focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full px-3 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-colors"
                 >
                   <option value="">Província</option>
                   <option value="Luanda">Luanda</option>
-                  <option value="Malanje">Malanje</option>
                   <option value="Benguela">Benguela</option>
                   <option value="Huíla">Huíla</option>
+                  <option value="Malanje">Malanje</option>
+                  <option value="Cuanza Sul">Cuanza Sul</option>
+                  <option value="Huambo">Huambo</option>
                 </select>
               </div>
 
@@ -180,7 +220,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <button
                   id="hero-btn-search"
                   type="submit"
-                  className="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-red-950/40 cursor-pointer"
                 >
                   <Search className="w-4 h-4" />
                   <span>Buscar</span>
@@ -193,7 +233,7 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 type="button"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1.5 font-medium transition-colors"
+                className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5 font-semibold transition-colors cursor-pointer"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5" />
                 <span>{showAdvanced ? "Ocultar filtros de valor" : "Filtrar por faixa de preço"}</span>
@@ -203,7 +243,7 @@ export const Hero: React.FC<HeroProps> = ({
                 id="hero-btn-explore-catalog"
                 type="button"
                 onClick={handleExplore}
-                className="text-xs text-stone-400 hover:text-stone-200 flex items-center gap-1 font-medium transition-colors"
+                className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 font-semibold transition-colors cursor-pointer"
               >
                 <span>Explorar todo o catálogo</span>
                 <ArrowRight className="w-3 h-3" />
@@ -212,25 +252,25 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Collapsible Price Range inputs */}
             {showAdvanced && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-stone-800/60">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-800">
                 <div>
-                  <label className="block text-[11px] font-semibold text-stone-400 mb-1">Preço Mínimo (Kz)</label>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">Preço Mínimo (Kz)</label>
                   <input
                     type="number"
                     value={minPrice || ""}
                     onChange={(e) => setMinPrice(e.target.value ? Number(e.target.value) : undefined)}
                     placeholder="Ex: 50.000.000"
-                    className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-slate-950/80 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-stone-400 mb-1">Preço Máximo (Kz)</label>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">Preço Máximo (Kz)</label>
                   <input
                     type="number"
                     value={maxPrice || ""}
                     onChange={(e) => setMaxPrice(e.target.value ? Number(e.target.value) : undefined)}
                     placeholder="Ex: 500.000.000"
-                    className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-slate-950/80 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
@@ -240,32 +280,32 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Real Dynamic Metrics */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          <div className="bg-stone-900/60 border border-stone-800/80 rounded-xl p-4 text-center">
-            <span className="font-serif-luxury text-2xl sm:text-3xl font-bold text-amber-400 block">
+          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
               {totalProperties}
             </span>
-            <span className="text-xs text-stone-400 uppercase tracking-wider mt-1 block">Imóveis Ativos</span>
+            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Imóveis Ativos</span>
           </div>
 
-          <div className="bg-stone-900/60 border border-stone-800/80 rounded-xl p-4 text-center">
-            <span className="font-serif-luxury text-2xl sm:text-3xl font-bold text-amber-400 block">
+          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
               {totalProvinces}
             </span>
-            <span className="text-xs text-stone-400 uppercase tracking-wider mt-1 block">Províncias Cobertas</span>
+            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Províncias</span>
           </div>
 
-          <div className="bg-stone-900/60 border border-stone-800/80 rounded-xl p-4 text-center">
-            <span className="font-serif-luxury text-2xl sm:text-3xl font-bold text-amber-400 block">
+          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
               100%
             </span>
-            <span className="text-xs text-stone-400 uppercase tracking-wider mt-1 block">Rigor Jurídico</span>
+            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Legalidade & Rigor</span>
           </div>
 
-          <div className="bg-stone-900/60 border border-stone-800/80 rounded-xl p-4 text-center">
-            <span className="font-serif-luxury text-2xl sm:text-3xl font-bold text-amber-400 block">
+          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
               24h
             </span>
-            <span className="text-xs text-stone-400 uppercase tracking-wider mt-1 block">Suporte Dedicado</span>
+            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">WhatsApp Ativo</span>
           </div>
         </div>
       </div>

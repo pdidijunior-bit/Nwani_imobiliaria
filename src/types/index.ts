@@ -146,3 +146,13 @@ export interface ToastMessage {
   title?: string;
   message: string;
 }
+
+export type UserRole = 'user' | 'admin';
+
+export interface UserProfile {
+  uid: string;
+  nome: string;
+  email: string;
+  role: UserRole;
+  createdAt: number;
+}

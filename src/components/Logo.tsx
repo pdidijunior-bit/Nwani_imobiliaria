@@ -5,99 +5,160 @@ interface LogoProps {
   showText?: boolean;
   className?: string;
   theme?: "dark" | "light";
+  variant?: "horizontal" | "vertical";
 }
 
+/**
+ * Logótipo Oficial da Victória D&D Soluções Imobiliárias
+ * Baseado na identidade visual oficial (Logótipo com Vivenda, Chave Carmesim, 
+ * Monograma D&D e Tipografia Victória D&D Soluções Imobiliárias).
+ */
 export const Logo: React.FC<LogoProps> = ({
   size = "md",
   showText = true,
   className = "",
   theme = "dark",
+  variant = "horizontal",
 }) => {
   const sizeMap = {
-    sm: { icon: 34, title: "text-lg", subtitle: "text-[9px]" },
-    md: { icon: 44, title: "text-xl", subtitle: "text-[10px]" },
-    lg: { icon: 60, title: "text-2xl", subtitle: "text-xs" },
-    xl: { icon: 84, title: "text-4xl", subtitle: "text-sm" },
+    sm: { icon: 34, title: "text-sm", dd: "text-base", sub: "text-[8px]" },
+    md: { icon: 46, title: "text-base", dd: "text-xl", sub: "text-[9px]" },
+    lg: { icon: 64, title: "text-xl", dd: "text-2xl", sub: "text-[10px]" },
+    xl: { icon: 88, title: "text-3xl", dd: "text-4xl", sub: "text-xs" },
   };
 
   const current = sizeMap[size];
 
   return (
-    <div id="nwani-brand-logo" className={`flex items-center gap-3 select-none ${className}`}>
-      {/* 3D-Styled Metallic Golden Lion Crest */}
+    <div
+      id="dd-brand-logo"
+      className={`inline-flex items-center gap-2.5 select-none ${
+        variant === "vertical" ? "flex-col text-center" : ""
+      } ${className}`}
+    >
+      {/* Emblema Vectorial D&D com a Chave Carmesim e Estrutura Imobiliária */}
       <div
-        className="relative shrink-0 flex items-center justify-center rounded-xl p-1.5 transition-transform hover:scale-105"
+        className="relative shrink-0 flex items-center justify-center rounded-2xl p-1.5 transition-transform hover:scale-105"
         style={{
           width: current.icon,
           height: current.icon,
-          background: "linear-gradient(135deg, #1C1917 0%, #0C0A09 100%)",
-          boxShadow: "0 4px 20px -2px rgba(217, 119, 6, 0.25), inset 0 1px 1px rgba(253, 230, 138, 0.3)",
-          border: "1px solid rgba(245, 158, 11, 0.45)",
+          background: theme === "dark" 
+            ? "linear-gradient(145deg, #0f172a 0%, #090d16 100%)" 
+            : "linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%)",
+          boxShadow: theme === "dark"
+            ? "0 6px 20px -2px rgba(225, 29, 38, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15)"
+            : "0 6px 20px -2px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)",
+          border: theme === "dark" ? "1px solid rgba(225, 29, 38, 0.35)" : "1px solid rgba(225, 29, 38, 0.25)",
         }}
       >
         <svg
           viewBox="0 0 100 100"
-          className="w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+          className="w-full h-full drop-shadow-md"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Rich metallic gold gradients */}
-            <linearGradient id="goldMane" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFFBEB" />
-              <stop offset="35%" stopColor="#F59E0B" />
-              <stop offset="70%" stopColor="#D97706" />
-              <stop offset="100%" stopColor="#78350F" />
+            {/* Gradiente Carmesim D&D */}
+            <linearGradient id="ddCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#EF4444" />
+              <stop offset="60%" stopColor="#DC2626" />
+              <stop offset="100%" stopColor="#991B1B" />
             </linearGradient>
-            <linearGradient id="goldHighlights" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#D97706" />
-              <stop offset="50%" stopColor="#FDE68A" />
-              <stop offset="100%" stopColor="#FFFBEB" />
+
+            {/* Gradiente Azul Marinho Profundo */}
+            <linearGradient id="ddNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#38BDF8" />
+              <stop offset="40%" stopColor="#0284C7" />
+              <stop offset="100%" stopColor="#0C4A6E" />
             </linearGradient>
           </defs>
 
-          {/* Architectural Crest Silhouette */}
-          <path
-            d="M50 4 L82 18 L72 58 L50 94 L28 58 L18 18 Z"
-            fill="url(#goldMane)"
-            opacity="0.18"
+          {/* Anel Superior da Chave / Porta-chaves */}
+          <circle
+            cx="50"
+            cy="16"
+            r="10"
+            stroke="url(#ddNavy)"
+            strokeWidth="3.5"
+            fill="none"
           />
 
-          {/* Stylized Majestic Lion Crown & Mane Facets */}
-          <path d="M50 8 L66 19 L56 34 L50 26 L44 34 L34 19 Z" fill="url(#goldHighlights)" />
-          <path d="M66 19 L86 31 L75 52 L60 41 Z" fill="url(#goldMane)" opacity="0.95" />
-          <path d="M34 19 L14 31 L25 52 L40 41 Z" fill="url(#goldMane)" opacity="0.95" />
-          <path d="M75 52 L83 72 L62 65 L60 52 Z" fill="url(#goldMane)" opacity="0.85" />
-          <path d="M25 52 L17 72 L38 65 L40 52 Z" fill="url(#goldMane)" opacity="0.85" />
+          {/* Telhado e Chaminé da Casa */}
+          <path
+            d="M20 46 L50 24 L80 46"
+            stroke="url(#ddNavy)"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M66 35 V27 H72 V40"
+            stroke="url(#ddNavy)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
 
-          {/* Architectural Snout, Nose & Jaw Lines */}
-          <polygon points="50,26 60,40 50,54 40,40" fill="#FFFBEB" />
-          <polygon points="50,54 58,68 50,82 42,68" fill="url(#goldHighlights)" />
-          <polygon points="45,58 55,58 50,66" fill="#0C0A09" />
+          {/* Primeiro "D" (Azul Marinho) */}
+          <path
+            d="M32 46 V80 H44 C53 80 58 74 58 63 C58 52 53 46 44 46 Z"
+            fill="url(#ddNavy)"
+            fillOpacity="0.95"
+          />
+          {/* Abertura do Primeiro D */}
+          <path
+            d="M38 52 H43 C48 52 51 56 51 63 C51 70 48 74 43 74 H38 Z"
+            fill={theme === "dark" ? "#0f172a" : "#ffffff"}
+          />
 
-          {/* Piercing Sovereign Eyes */}
-          <polygon points="42,38 47,41 41,43" fill="#0C0A09" />
-          <polygon points="58,38 53,41 59,43" fill="#0C0A09" />
+          {/* Segundo "D" (Carmesim D&D com Janela) */}
+          <path
+            d="M48 46 V80 H62 C73 80 79 73 79 63 C79 53 73 46 62 46 Z"
+            fill="url(#ddCrimson)"
+          />
+          {/* Janela Moderna de 4 painéis dentro do segundo D */}
+          <rect x="54" y="52" width="7" height="9" rx="1" fill="#FFFFFF" fillOpacity="0.95" />
+          <rect x="63" y="52" width="7" height="9" rx="1" fill="#FFFFFF" fillOpacity="0.95" />
+          <rect x="54" y="63" width="7" height="9" rx="1" fill="#FFFFFF" fillOpacity="0.95" />
+          <rect x="63" y="63" width="7" height="9" rx="1" fill="#FFFFFF" fillOpacity="0.95" />
+
+          {/* Haste e Dentes da Chave Carmesim Estendida */}
+          <path
+            d="M26 64 H86 M74 64 V72 M82 64 V70 M86 64 V73"
+            stroke="url(#ddCrimson)"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
 
-      {/* Brand Typography */}
+      {/* Tipografia da Marca Victória D&D */}
       {showText && (
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${variant === "vertical" ? "items-center" : "items-start"}`}>
+          <div className="flex items-baseline gap-1.5 leading-none">
+            <span
+              className={`font-serif tracking-[0.16em] font-black uppercase ${current.title} ${
+                theme === "light" ? "text-slate-900" : "text-slate-100"
+              }`}
+            >
+              VICTÓRIA
+            </span>
+            <span className={`font-black tracking-wider text-red-600 ${current.dd}`}>
+              D&D
+            </span>
+          </div>
           <span
-            className={`font-serif-luxury tracking-[0.2em] font-extrabold uppercase leading-none ${current.title} ${
-              theme === "light" ? "text-stone-900" : "text-white"
+            className={`font-semibold tracking-[0.24em] uppercase mt-1 leading-none ${current.sub} ${
+              theme === "light" ? "text-slate-600" : "text-slate-400"
             }`}
           >
-            <span className="text-gold-gradient">NWANI</span>
+            SOLUÇÕES IMOBILIÁRIAS
           </span>
-          <span
-            className={`font-sans-luxury tracking-[0.35em] font-semibold uppercase mt-0.5 leading-none ${current.subtitle} ${
-              theme === "light" ? "text-stone-600" : "text-stone-400"
-            }`}
-          >
-            IMÓVEIS
-          </span>
+          {size === "xl" && (
+            <span className="text-[10px] font-bold text-red-600 tracking-wider mt-1 uppercase">
+              Vendas • Trespasse • Avaliação • Permutas
+            </span>
+          )}
         </div>
       )}
     </div>

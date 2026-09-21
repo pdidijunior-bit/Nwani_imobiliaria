@@ -5,6 +5,7 @@ import { Hero } from "./components/Hero";
 import { PropertyGrid } from "./components/PropertyGrid";
 import { ProprietariosInvestidores } from "./components/ProprietariosInvestidores";
 import { Diferenciais } from "./components/Diferenciais";
+import { ApresentacaoDD } from "./components/ApresentacaoDD";
 import { Footer } from "./components/Footer";
 import { PropertyDetailModal } from "./components/PropertyDetailModal";
 import { SobreNosModal } from "./components/SobreNosModal";
@@ -270,14 +271,15 @@ export default function App() {
         onOpenSobreNos={() => setIsSobreNosOpen(true)}
         onOpenTermos={() => setIsTermosOpen(true)}
         onOpenAdmin={handleOpenAdmin}
+        onOpenAuth={handleOpenAdmin}
         onNavigateToCatalog={handleNavigateToCatalog}
       />
 
       {/* 3. Hero Section with dynamic slides & multi-criteria search */}
       <Hero
         slides={heroSlides}
-        title={siteSettings?.title || "Nwani Imóveis"}
-        subtitle={siteSettings?.subtitle || "Imóveis de Prestígio & Confiança em Angola"}
+        title={siteSettings?.title || "Victória D&D Soluções Imobiliárias"}
+        subtitle={siteSettings?.subtitle || "Arrendamentos, Compras e Vendas de Imóveis em Angola com Rigor e Segurança Legal"}
         totalProperties={properties.length}
         totalProvinces={new Set(properties.map((p) => p.province).filter(Boolean)).size}
         categories={categories}
@@ -297,13 +299,16 @@ export default function App() {
         initialBusinessType={catalogInitialBusinessType}
       />
 
-      {/* 5. Proprietários & Investidores Institutional Section */}
+      {/* 5. Apresentação Institucional Oficial Victória D&D */}
+      <ApresentacaoDD currentTheme={theme} />
+
+      {/* 6. Proprietários & Investidores Institutional Section */}
       <ProprietariosInvestidores />
 
-      {/* 6. Diferenciais e Pilares de Excelência */}
+      {/* 7. Diferenciais e Pilares de Excelência */}
       <Diferenciais />
 
-      {/* 7. Footer */}
+      {/* 8. Footer */}
       <Footer
         categories={categories}
         settings={siteSettings}
