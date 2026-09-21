@@ -23,7 +23,7 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   const current = sizeMap[size];
-  const customLogoUrl = "/logo-victoria-dd.png.pdf";
+  const customLogoUrl = "/logo-victoria-dd.png";
 
   return (
     <div
@@ -39,11 +39,10 @@ export const Logo: React.FC<LogoProps> = ({
         style={{
           width: current.width,
           height: current.height,
-          filter: theme === "dark" ? "drop-shadow(0 6px 18px rgba(225, 29, 38, 0.15))" : "drop-shadow(0 4px 14px rgba(15, 23, 42, 0.08))",
-        }}
-        onError={(e) => {
-          const target = e.currentTarget as HTMLImageElement;
-          target.style.display = "none";
+          filter:
+            theme === "dark"
+              ? "drop-shadow(0 6px 18px rgba(225, 29, 38, 0.15))"
+              : "drop-shadow(0 4px 14px rgba(15, 23, 42, 0.08))",
         }}
       />
 
