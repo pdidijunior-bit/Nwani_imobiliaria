@@ -350,8 +350,32 @@ export async function loginAdminWithVerification(email: string, pass: string): P
   }
 
   // 1. Autentica via Firebase Auth
-  const credential = await signInWithEmailAndPassword(auth, cleanEmail, pass);
-  const user = credential.user;
+  let user: User;
+  try {
+    const credential = await signInWithEmailAndPassword(auth, cleanEmail, pass);
+    user = credential.user;
+  } catch (authErr: any) {
+    // Se a conta de administrador mestre ainda não tiver sido criada no Firebase Auth deste projeto,
+    // provisiona automaticamente no primeiro acesso com a palavra-passe escolhida pelo utilizador.
+    const isMasterAdminEmail = cleanEmail === ADMIN_DEFAULT_EMAIL.toLowerCase();
+    const isMissingAccount = authErr?.code === "auth/user-not-found" || authErr?.code === "auth/invalid-credential";
+
+    if (isMasterAdminEmail && isMissingAccount) {
+      try {
+        const newCredential = await createUserWithEmailAndPassword(auth, cleanEmail, pass);
+        user = newCredential.user;
+        await updateProfile(user, { displayName: "Administrador D&D" });
+      } catch (createErr: any) {
+        // Se já existia e o erro era apenas palavra-passe incorreta:
+        if (createErr?.code === "auth/email-already-in-use") {
+          throw new Error("Palavra-passe de administrador incorreta. Por favor, verifique a senha digitada.");
+        }
+        throw authErr;
+      }
+    } else {
+      throw authErr;
+    }
+  }
 
   // 2. Consulta Firestore na coleção 'users'
   let role: UserRole = "user";
