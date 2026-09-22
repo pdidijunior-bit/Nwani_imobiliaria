@@ -226,7 +226,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({
                   </div>
                   <h3 className="text-base font-bold text-stone-200">Nenhum favorito guardado</h3>
                   <p className="text-xs max-w-sm mx-auto">
-                    Ao navegar pelo catálogo da Nwani Imóveis, clique no ícone de coração nos imóveis de seu interesse para guardá-los nesta lista.
+                    Ao navegar pelo catálogo da Victória D&D Soluções Imobiliárias, clique no ícone de coração nos imóveis de seu interesse para guardá-los nesta lista.
                   </p>
                 </div>
               )}
@@ -392,14 +392,18 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({
                   >
                     <div className="flex items-center justify-between mb-1">
                       <h4 className="text-xs font-bold text-stone-100 flex items-center gap-2">
-                        {!notif.read && <span className="w-2 h-2 rounded-full bg-amber-400" />}
-                        <span>{notif.title}</span>
+                        {!notif.read && <span className="w-2 h-2 rounded-full bg-red-500" />}
+                        <span>
+                          {notif.title?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária")}
+                        </span>
                       </h4>
                       <span className="text-[10px] text-stone-500">
                         {new Date(notif.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <p className="text-xs text-stone-300 leading-relaxed">{notif.message}</p>
+                    <p className="text-xs text-stone-300 leading-relaxed">
+                      {notif.message?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária")}
+                    </p>
                   </div>
                 ))
               ) : (

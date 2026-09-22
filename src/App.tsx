@@ -48,6 +48,7 @@ import {
   setSafeLocalStorage
 } from "./utils/formatters";
 import { INITIAL_SITE_SETTINGS } from "./data/seedData";
+import { ADMIN_DEFAULT_EMAIL } from "./constants/config";
 
 const FAVORITES_STORAGE_KEY = "nwani_favorites";
 const THEME_STORAGE_KEY = "nwani_theme_mode";
@@ -136,11 +137,15 @@ export default function App() {
 
   // Listen to Auth state
   useEffect(() => {
-    // Cleanse any old mock property data from localStorage to ensure clean state
+    // Cleanse any old mock property data or legacy notifications from localStorage
     try {
       const rawProps = localStorage.getItem("nwani_properties_cache");
       if (rawProps && rawProps.includes("prop-nwi-000")) {
         localStorage.removeItem("nwani_properties_cache");
+      }
+      const rawNotifs = localStorage.getItem("nwani_notifs_cache");
+      if (rawNotifs && rawNotifs.includes("Nwani")) {
+        localStorage.removeItem("nwani_notifs_cache");
       }
       const rawFavs = localStorage.getItem(FAVORITES_STORAGE_KEY);
       if (rawFavs && rawFavs.includes("prop-nwi-000")) {
@@ -153,7 +158,7 @@ export default function App() {
 
     const unsubAuth = onAuthStateChange((user) => {
       if (user) {
-        setCurrentUserEmail(user.email || "admin@nwaniimoveis.com");
+        setCurrentUserEmail(user.email || ADMIN_DEFAULT_EMAIL);
         setIsAdminUser(true);
       } else {
         setCurrentUserEmail(null);

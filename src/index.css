@@ -66,15 +66,21 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  touch-action: manipulation;
 }
 
 body {
   overflow-x: hidden;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  touch-action: manipulation;
 }
 
-/* Prevent unwanted zooming on iOS Safari when tapping inputs */
+/* Prevent unwanted zooming on iOS Safari / Mobile when tapping inputs or double-tapping */
+input, select, textarea, button, a {
+  touch-action: manipulation;
+}
+
 @media screen and (max-width: 768px) {
   input, select, textarea {
     font-size: 16px !important;

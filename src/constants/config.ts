@@ -34,8 +34,8 @@ export const INSTAGRAM_LINK = "https://www.instagram.com/";
 export const FACEBOOK_HANDLE = "D&D Soluções Imobiliárias";
 export const TIKTOK_HANDLE = "D&D Soluções Imobiliárias";
 
-export const WEBSITE_DISPLAY = "victoriadd-imoveis.com";
-export const WEBSITE_LINK = "https://victoriadd-imoveis.com/";
+export const WEBSITE_DISPLAY = "victoriaded-imoveis.vercel.app";
+export const WEBSITE_LINK = "https://victoriaded-imoveis.vercel.app/";
 
 export const OFFICIAL_ADDRESS = {
   street: "Av. 21 de Janeiro",

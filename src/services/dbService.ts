@@ -506,22 +506,35 @@ export function subscribeToNotifications(
       colRef,
       (snap) => {
         if (!snap.empty) {
-          const items = snap.docs.map((d) => ({ id: d.id, ...d.data() } as SystemNotification));
+          const items = snap.docs.map((d) => {
+            const data = d.data() as any;
+            const title = (data.title || "").replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária");
+            const message = (data.message || "").replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária");
+            return { id: d.id, ...data, title, message } as SystemNotification;
+          });
           items.sort((a, b) => b.createdAt - a.createdAt);
           setSafeLocalStorage(LOCAL_STORAGE_NOTIFS_KEY, items);
           onData(items);
         } else {
-          const cached = getSafeLocalStorage<SystemNotification[]>(LOCAL_STORAGE_NOTIFS_KEY, [
-            {
-              id: "notif-welcome",
-              title: "Bem-vindo à Nwani Imóveis",
-              message: "Conheça o nosso portfólio exclusivo de imóveis de alto padrão em Luanda e em Angola.",
-              createdAt: Date.now(),
-              read: false,
-              type: "system",
-            },
-          ]);
-          onData(cached);
+          const rawCached = getSafeLocalStorage<SystemNotification[]>(LOCAL_STORAGE_NOTIFS_KEY, []);
+          const validCached = rawCached.length > 0
+            ? rawCached.map((n) => ({
+                ...n,
+                title: n.title?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária"),
+                message: n.message?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária"),
+              }))
+            : [
+                {
+                  id: "notif-welcome",
+                  title: "Bem-vindo à Victória D&D Imobiliária",
+                  message: "Conheça o nosso portfólio oficial de imóveis em Angola. Comprar e Vender ficou muito mais fácil!",
+                  createdAt: Date.now(),
+                  read: false,
+                  type: "system" as const,
+                },
+              ];
+          setSafeLocalStorage(LOCAL_STORAGE_NOTIFS_KEY, validCached);
+          onData(validCached);
         }
       },
       () => {
