@@ -14,7 +14,7 @@ export const auth = getAuth(app);
 export async function testFirestoreConnection(): Promise<{ connected: boolean; message: string }> {
   try {
     await getDocFromServer(doc(db, "test", "connection"));
-    return { connected: true, message: "Conectado ao Firebase Firestore (nwani-imoveis-932b3)" };
+    return { connected: true, message: "Conectado ao Firebase Firestore" };
   } catch (error: any) {
     if (error?.message?.includes("client is offline") || error?.code === "unavailable") {
       return { connected: false, message: "Cliente offline ou sem conexão à internet." };

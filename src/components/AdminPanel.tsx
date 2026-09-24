@@ -61,6 +61,7 @@ import { optimizeImageFiles } from "../utils/imageOptimizer";
 import { formatCurrency } from "../utils/formatters";
 import { authSignOut, checkIsUserAdmin } from "../services/authService";
 import { testFirestoreConnection } from "../services/firebase";
+import { COMPANY_NAME, COMPANY_SHORT_NAME } from "../constants/config";
 
 interface AdminPanelProps {
   isOpen: boolean;
@@ -149,7 +150,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       testFirestoreConnection().then((res) => {
         setDbStatus(res);
       }).catch(() => {
-        setDbStatus({ connected: true, message: "Modo Local/Nuvem Activo (nwani-imoveis-932b3)" });
+        setDbStatus({ connected: true, message: "Modo Local/Nuvem Activo" });
       });
     }
   }, [isOpen]);
@@ -434,7 +435,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `backup-nwani-imoveis-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `backup-victoria-dd-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
     onShowToast("Backup exportado com sucesso!", "success");
@@ -459,7 +460,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   };
 
   const handleResetSeedData = async () => {
-    if (window.confirm("Atenção: Isto irá redefinir os dados para o catálogo padrão da Nwani Imóveis. Pretende continuar?")) {
+    if (window.confirm(`Atenção: Isto irá redefinir os dados para o catálogo padrão da ${COMPANY_NAME}. Pretende continuar?`)) {
       await resetToSeedData();
       onShowToast("Base de dados restaurada para a demonstração oficial.", "info");
     }
@@ -485,8 +486,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
             <div>
-              <span className="font-serif-luxury text-sm font-bold text-amber-400 block leading-tight">
-                Nwani Imóveis
+              <span className="font-serif-luxury text-sm font-bold text-red-500 block leading-tight truncate max-w-[150px] sm:max-w-none">
+                {COMPANY_SHORT_NAME}
               </span>
               <span className="text-[10px] text-stone-400 font-mono capitalize">
                 {activeTab === "dashboard" && "Dashboard & Métricas"}
@@ -605,8 +606,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           {/* Brand header */}
           <div className="p-5 border-b border-stone-800 flex items-center justify-between">
             <div>
-              <span className="font-serif-luxury text-base font-extrabold text-amber-400 block">
-                Nwani Imóveis
+              <span className="font-serif-luxury text-base font-extrabold text-red-500 block">
+                {COMPANY_NAME}
               </span>
               <span className="text-[10px] text-stone-400 font-mono">Gestão Administrativa</span>
             </div>
@@ -769,7 +770,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     Visão Geral do Sistema
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-400 mt-1">
-                    Métricas em tempo real da carteira imobiliária e interações de clientes da Nwani Imóveis.
+                    Métricas em tempo real da carteira imobiliária e interações de clientes da {COMPANY_NAME}.
                   </p>
                 </div>
 
@@ -1350,7 +1351,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                               type="text"
                               value={adminReplyText}
                               onChange={(e) => setAdminReplyText(e.target.value)}
-                              placeholder="Digite a resposta oficial como Nwani Imóveis..."
+                              placeholder={`Digite a resposta oficial como ${COMPANY_NAME}...`}
                               className="flex-1 px-3 py-2 bg-stone-900 border border-stone-800 rounded-xl text-xs text-stone-100 placeholder-stone-500 focus:outline-none focus:border-amber-400"
                             />
                             <button
@@ -1594,7 +1595,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   Backup e Recuperação de Dados
                 </h2>
                 <p className="text-xs text-stone-400 mt-1">
-                  Exporte o banco de dados completo da Nwani Imóveis em formato JSON ou restaure um backup anterior.
+                  Exporte o banco de dados completo da {COMPANY_NAME} em formato JSON ou restaure um backup anterior.
                 </p>
               </div>
 

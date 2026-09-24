@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { Property } from "../types";
 import { formatCurrency, createPropertyWhatsAppLink } from "../utils/formatters";
-import { PHONE_DISPLAY, PHONE_TEL_LINK, WHATSAPP_LINK } from "../constants/config";
+import { PHONE_DISPLAY, PHONE_TEL_LINK, WHATSAPP_LINK, COMPANY_NAME, WEBSITE_LINK } from "../constants/config";
 
 interface PropertyDetailModalProps {
   property: Property | null;
@@ -66,13 +66,13 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({
   const handleShare = async () => {
     const url = typeof window !== "undefined"
       ? `${window.location.origin}/?imovel=${property.code}`
-      : `https://www.nwaniimoveis.com/?imovel=${property.code}`;
+      : `${WEBSITE_LINK}?imovel=${property.code}`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${property.title} | Nwani Imóveis`,
-          text: `Confira este imóvel da Nwani Imóveis em ${property.neighborhood}, ${property.municipality} (${property.code})`,
+          title: `${property.title} | ${COMPANY_NAME}`,
+          text: `Confira este imóvel da ${COMPANY_NAME} em ${property.neighborhood}, ${property.municipality} (${property.code})`,
           url,
         });
         onShowToast("Imóvel compartilhado com sucesso!", "success");
@@ -98,7 +98,7 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({
       return;
     }
 
-    const scheduleMsg = `Olá, gostaria de agendar uma visita para o imóvel da Nwani Imóveis:\nImóvel: ${property.title}\nCódigo: ${property.code}\nNome: ${clientName}\nTelefone: ${clientPhone}\nData pretendida: ${preferredDate || "A combinar"}`;
+    const scheduleMsg = `Olá, gostaria de agendar uma visita para o imóvel da ${COMPANY_NAME}:\nImóvel: ${property.title}\nCódigo: ${property.code}\nNome: ${clientName}\nTelefone: ${clientPhone}\nData pretendida: ${preferredDate || "A combinar"}`;
     const scheduleUrl = `${WHATSAPP_LINK}?text=${encodeURIComponent(scheduleMsg)}`;
     window.open(scheduleUrl, "_blank");
     setShowScheduleModal(false);

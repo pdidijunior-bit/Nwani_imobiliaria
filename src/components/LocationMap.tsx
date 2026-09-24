@@ -1,6 +1,6 @@
 import React from "react";
 import { MapPin, Navigation, ExternalLink } from "lucide-react";
-import { OFFICIAL_ADDRESS } from "../constants/config";
+import { OFFICIAL_ADDRESS, COMPANY_NAME } from "../constants/config";
 
 interface LocationMapProps {
   address?: string;
@@ -37,8 +37,8 @@ export const LocationMap: React.FC<LocationMapProps> = ({
           <div className="w-12 h-12 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/30">
             <MapPin className="w-6 h-6 text-amber-400 fill-amber-400" />
           </div>
-          <div className="mt-2 px-3 py-1 rounded-full bg-stone-950/90 border border-amber-500/40 text-[11px] font-bold text-amber-300 shadow-md">
-            Sede Nwani Imóveis
+          <div className="mt-2 px-3 py-1 rounded-full bg-stone-950/90 border border-red-500/40 text-[11px] font-bold text-red-400 shadow-md">
+            Sede {COMPANY_NAME}
           </div>
         </div>
 

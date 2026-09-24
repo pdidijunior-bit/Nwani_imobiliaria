@@ -14,7 +14,7 @@ import {
 import { Property, Conversation, ConversationMessage } from "../types";
 import { sendMessage, subscribeToConversations } from "../services/dbService";
 import { getSafeLocalStorage, setSafeLocalStorage, formatCurrency } from "../utils/formatters";
-import { WHATSAPP_LINK } from "../constants/config";
+import { WHATSAPP_LINK, COMPANY_NAME, COMPANY_SHORT_NAME } from "../constants/config";
 
 interface ChatWidgetProps {
   attachedProperty: Property | null;
@@ -24,7 +24,7 @@ interface ChatWidgetProps {
   currentTheme?: "dark" | "light";
 }
 
-const CHAT_CLIENT_STORAGE_KEY = "nwani_chat_client_info";
+const CHAT_CLIENT_STORAGE_KEY = "victoria_dd_chat_client_info";
 
 export const ChatWidget: React.FC<ChatWidgetProps> = ({
   attachedProperty,
@@ -105,7 +105,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     // Send an automatic greeting / inquiry
     const firstText = attachedProperty
       ? `Olá, tenho interesse no imóvel ${attachedProperty.title} (${attachedProperty.code}).`
-      : `Olá, gostaria de obter informações sobre os imóveis da Nwani Imóveis.`;
+      : `Olá, gostaria de obter informações sobre os imóveis da ${COMPANY_NAME}.`;
 
     sendMessage(conversationId, firstText, "client", {
       name: clientName.trim(),
@@ -148,7 +148,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   };
 
   return (
-    <div id="nwani-live-chat-widget" className="fixed bottom-5 right-5 z-50">
+    <div id="victoria-dd-live-chat-widget" className="fixed bottom-5 right-5 z-50">
       {/* Floating Trigger Button with Pulsing Online Dot */}
       {!isOpen && (
         <button
@@ -177,14 +177,14 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           <div className="p-4 bg-stone-950 border-b border-stone-800 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
               <div className="relative">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-bold font-serif-luxury">
-                  N
+                <div className="w-9 h-9 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 font-bold text-xs">
+                  D&D
                 </div>
                 <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-stone-950" />
               </div>
               <div>
                 <span className="font-serif-luxury text-sm font-bold text-stone-100 block leading-tight">
-                  Nwani Imóveis
+                  {COMPANY_SHORT_NAME}
                 </span>
                 <span className="text-[11px] text-emerald-400 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -275,11 +275,11 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
             <div className="flex-1 p-3.5 overflow-y-auto space-y-3">
               {/* Initial Welcome Bubble */}
               <div className="flex items-start gap-2 max-w-[85%]">
-                <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold shrink-0">
-                  N
+                <div className="w-7 h-7 rounded-lg bg-red-600/20 text-red-500 flex items-center justify-center text-[10px] font-bold shrink-0">
+                  D&D
                 </div>
                 <div className="p-3 rounded-2xl rounded-tl-none bg-stone-800 text-xs text-stone-200 leading-relaxed border border-stone-700/60">
-                  Olá, {clientName}! Bem-vindo ao atendimento da <strong>Nwani Imóveis</strong>. Como podemos ajudá-lo hoje?
+                  Olá, {clientName}! Bem-vindo ao atendimento da <strong>{COMPANY_NAME}</strong>. Como podemos ajudá-lo hoje?
                 </div>
               </div>
 

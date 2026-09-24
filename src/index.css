@@ -67,13 +67,34 @@ html {
   text-size-adjust: 100%;
   scroll-behavior: smooth;
   touch-action: manipulation;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  min-height: 100vh;
+  min-height: 100dvh;
+  touch-action: manipulation;
+  position: relative;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  min-height: -webkit-fill-available;
-  touch-action: manipulation;
+  min-height: 100dvh;
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Prevent unwanted zooming on iOS Safari / Mobile when tapping inputs or double-tapping */

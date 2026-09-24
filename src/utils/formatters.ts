@@ -1,4 +1,4 @@
-import { WHATSAPP_RAW } from "../constants/config";
+import { WHATSAPP_RAW, COMPANY_NAME, WEBSITE_LINK } from "../constants/config";
 
 /**
  * Format currency with pt-AO locale:
@@ -33,7 +33,7 @@ export function formatCurrency(amount: number, currency: string = "AOA"): string
 
 /**
  * Generates official WhatsApp message for a property:
- * "Olá, tenho interesse neste imóvel da Nwani Imóveis.
+ * "Olá, tenho interesse neste imóvel da Victória D&D Soluções Imobiliárias.
  * Nome: [NOME]
  * Código: [CÓDIGO]
  * Link: [LINK]"
@@ -44,9 +44,9 @@ export function createPropertyWhatsAppLink(
   clientName?: string,
   customUrl?: string
 ): string {
-  const currentUrl = customUrl || (typeof window !== "undefined" ? `${window.location.origin}/imovel/${propertyCode}` : `https://www.nwaniimoveis.com/imovel/${propertyCode}`);
+  const currentUrl = customUrl || (typeof window !== "undefined" ? `${window.location.origin}/imovel/${propertyCode}` : `${WEBSITE_LINK}imovel/${propertyCode}`);
   const nameLine = clientName ? `\nNome: ${clientName}` : "";
-  const text = `Olá, tenho interesse neste imóvel da Nwani Imóveis.${nameLine}\nImóvel: ${propertyTitle}\nCódigo: ${propertyCode}\nLink: ${currentUrl}`;
+  const text = `Olá, tenho interesse neste imóvel da ${COMPANY_NAME}.${nameLine}\nImóvel: ${propertyTitle}\nCódigo: ${propertyCode}\nLink: ${currentUrl}`;
   return `https://wa.me/${WHATSAPP_RAW.replace("+", "")}?text=${encodeURIComponent(text)}`;
 }
 
@@ -54,7 +54,7 @@ export function createPropertyWhatsAppLink(
  * General WhatsApp inquiry link
  */
 export function createGeneralWhatsAppLink(subject?: string): string {
-  const text = subject ? `Olá, gostaria de falar com a equipa da Nwani Imóveis sobre: ${subject}` : `Olá, gostaria de mais informações sobre os serviços da Nwani Imóveis.`;
+  const text = subject ? `Olá, gostaria de falar com a equipa da ${COMPANY_NAME} sobre: ${subject}` : `Olá, gostaria de mais informações sobre os serviços da ${COMPANY_NAME}.`;
   return `https://wa.me/${WHATSAPP_RAW.replace("+", "")}?text=${encodeURIComponent(text)}`;
 }
 

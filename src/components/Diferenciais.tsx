@@ -3,7 +3,7 @@ import { ShieldCheck, Award, HeartHandshake, FileCheck } from "lucide-react";
 
 export const Diferenciais: React.FC = () => {
   return (
-    <section id="diferenciais-section" className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="diferenciais-section" className="py-12 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full overflow-hidden">
       <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/10 border border-red-600/30 text-red-500 text-xs font-bold tracking-wider uppercase mb-3">
           <Award className="w-3.5 h-3.5 text-red-500" />

@@ -23,11 +23,11 @@ export const MarqueeBanner: React.FC<MarqueeProps> = ({
   return (
     <div
       id="dd-top-marquee"
-      className="bg-slate-950 border-b border-red-500/20 text-xs py-2 px-3 sm:px-6 relative z-50 overflow-hidden"
+      className="bg-slate-950 border-b border-red-500/20 text-xs py-2 px-3 sm:px-6 relative z-50 overflow-hidden w-full max-w-full"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div className="w-full max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
         {/* Scrolling text */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative min-w-0">
           <div className="whitespace-nowrap animate-marquee flex items-center gap-8 text-slate-300 font-medium tracking-wide">
             {displayItems.map((itemText, idx) => (
               <React.Fragment key={idx}>

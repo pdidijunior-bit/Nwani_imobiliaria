@@ -78,20 +78,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header
       id="main-header"
-      className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-200 ${
+      className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-200 w-full max-w-full ${
         currentTheme === "dark"
-          ? "bg-slate-950/90 border-slate-800 text-slate-100"
+          ? "bg-slate-950/95 border-slate-800 text-slate-100"
           : "bg-white/95 border-slate-200 text-slate-900 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-2">
           {/* Logo */}
           <div
-            className="cursor-pointer"
+            className="cursor-pointer shrink min-w-0 flex items-center"
             onClick={() => handleNavClick(() => onNavigateToCatalog?.("all"))}
           >
-            <Logo size="md" theme={currentTheme} />
+            <Logo size="md" theme={currentTheme} className="max-w-[125px] sm:max-w-[160px] md:max-w-[180px]" />
           </div>
 
           {/* Desktop Navigation Links */}
@@ -229,15 +229,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Mobile Right Controls */}
-          <div className="flex items-center gap-2 lg:hidden">
+          {/* Mobile Right Controls - Perfectly Sized and Never Overflows */}
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden shrink-0">
             {/* Quick WhatsApp */}
             <a
               id="mobile-nav-btn-wa"
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-700/60 text-emerald-400"
+              className="w-9 h-9 rounded-xl bg-emerald-950/80 border border-emerald-700/60 text-emerald-400 flex items-center justify-center transition-colors active:scale-95 shrink-0"
               aria-label="WhatsApp Victória D&D"
             >
               <MessageCircle className="w-4 h-4" />
@@ -247,7 +247,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a
               id="mobile-nav-btn-call"
               href={PHONE_TEL_LINK}
-              className="p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-red-500"
+              className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 text-red-500 flex items-center justify-center transition-colors active:scale-95 shrink-0"
               aria-label="Ligar para a Imobiliária"
             >
               <Phone className="w-4 h-4" />
@@ -258,7 +258,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="mobile-nav-btn-fav"
               type="button"
               onClick={() => handleClientAreaClick("favorites")}
-              className="relative p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200"
+              className="relative w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center justify-center transition-colors active:scale-95 shrink-0 cursor-pointer"
               aria-label="Ver Favoritos"
             >
               <Heart className={`w-4 h-4 ${favoritesCount > 0 ? "text-red-500 fill-red-500" : ""}`} />
@@ -269,29 +269,29 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Mobile Hamburger Button */}
+            {/* Mobile Hamburger Button - Guaranteed visible on all screen sizes */}
             <button
               id="mobile-menu-toggle"
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2.5 rounded-lg border ${
+              className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors active:scale-95 shrink-0 cursor-pointer ${
                 currentTheme === "dark"
-                  ? "bg-slate-900 border-slate-700 text-slate-200"
-                  : "bg-slate-100 border-slate-300 text-slate-800"
+                  ? "bg-slate-900 border-slate-700 text-slate-100 hover:border-red-500/50"
+                  : "bg-slate-100 border-slate-300 text-slate-800 hover:border-red-500/50"
               }`}
-              aria-label="Abrir Menu"
+              aria-label={mobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-red-500" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu - Full Screen, Zero Zoom Gap */}
       {mobileMenuOpen && (
         <div
           id="mobile-drawer"
-          className="lg:hidden fixed inset-x-0 top-[80px] bottom-0 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 p-6 flex flex-col justify-between z-50 overflow-y-auto"
+          className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-slate-950/98 backdrop-blur-2xl border-t border-slate-800 p-4 sm:p-6 flex flex-col justify-between z-50 overflow-y-auto w-full max-w-full"
         >
           <div className="space-y-3">
             <div className="pb-4 mb-2 border-b border-slate-800/80">

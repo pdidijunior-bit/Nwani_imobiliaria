@@ -14,12 +14,12 @@ export const ProprietariosInvestidores: React.FC = () => {
   return (
     <section
       id="proprietarios-investidores-section"
-      className="py-16 sm:py-24 bg-slate-950/70 border-y border-slate-800 relative overflow-hidden"
+      className="py-12 sm:py-24 bg-slate-950/70 border-y border-slate-800 relative overflow-hidden w-full max-w-full"
     >
       {/* Background accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/10 border border-red-600/30 text-red-500 text-xs font-bold tracking-wider uppercase mb-3">
             <TrendingUp className="w-3.5 h-3.5" />

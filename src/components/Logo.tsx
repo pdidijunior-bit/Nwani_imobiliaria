@@ -35,10 +35,10 @@ export const Logo: React.FC<LogoProps> = ({
       <img
         src={customLogoUrl}
         alt="Victória D&D Soluções Imobiliárias"
-        className="object-contain drop-shadow-md"
+        className="object-contain drop-shadow-md w-full h-auto max-w-full"
         style={{
-          width: current.width,
-          height: current.height,
+          maxWidth: current.width,
+          maxHeight: current.height,
           filter:
             theme === "dark"
               ? "drop-shadow(0 6px 18px rgba(225, 29, 38, 0.15))"

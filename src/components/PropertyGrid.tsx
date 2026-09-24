@@ -111,7 +111,7 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
   ]);
 
   return (
-    <section id="catalog-section" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="catalog-section" className="py-12 sm:py-16 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full overflow-hidden">
       {/* Catalog Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
@@ -202,7 +202,7 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
           </div>
 
           {/* Right Filters Trigger & Sorting */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
             {/* Sort Select */}
             <div className="flex items-center gap-2">
               <ArrowUpDown className="w-3.5 h-3.5 text-stone-400" />

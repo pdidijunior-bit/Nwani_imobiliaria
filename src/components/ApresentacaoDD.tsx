@@ -57,7 +57,7 @@ export const ApresentacaoDD: React.FC<ApresentacaoDDProps> = ({
   return (
     <section
       id="apresentacao-institucional"
-      className={`py-16 sm:py-24 relative overflow-hidden border-t ${
+      className={`py-12 sm:py-24 relative overflow-hidden border-t w-full max-w-full ${
         currentTheme === "dark"
           ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-slate-800 text-slate-100"
           : "bg-gradient-to-b from-slate-50 via-white to-slate-100 border-slate-200 text-slate-900"
@@ -66,7 +66,7 @@ export const ApresentacaoDD: React.FC<ApresentacaoDDProps> = ({
       {/* Background Architectural Watermark */}
       <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:24px_24px]" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative">
         {/* Top Header Badge */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/10 border border-red-600/30 text-red-500 text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">

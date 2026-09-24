@@ -69,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <section
       id="hero-section"
-      className="relative bg-slate-950 text-white overflow-hidden py-16 lg:py-24 border-b border-slate-800"
+      className="relative bg-slate-950 text-white overflow-hidden py-12 sm:py-16 lg:py-24 border-b border-slate-800 w-full max-w-full"
       style={{
         backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.82) 0%, rgba(10, 15, 30, 0.90) 50%, rgba(2, 6, 23, 0.97) 100%), url('/vivenda-bg.jpg')",
         backgroundSize: "cover",
@@ -129,11 +129,11 @@ export const Hero: React.FC<HeroProps> = ({
         {/* High-Precision Search Box */}
         <div className="max-w-4xl mx-auto bg-slate-900/85 border border-slate-700/80 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-2xl">
           {/* Quick Business Type Tabs */}
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 overflow-x-auto scrollbar-none w-full">
             <button
               type="button"
               onClick={() => setBusinessType("")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 businessType === ""
                   ? "bg-red-600 text-white shadow-md shadow-red-900/50"
                   : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
@@ -144,7 +144,7 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={() => setBusinessType("Venda")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 businessType === "Venda"
                   ? "bg-red-600 text-white shadow-md shadow-red-900/50"
                   : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
@@ -155,7 +155,7 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={() => setBusinessType("Arrendamento")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 businessType === "Arrendamento"
                   ? "bg-red-600 text-white shadow-md shadow-red-900/50"
                   : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"

@@ -125,8 +125,8 @@ export async function saveProperty(property: Property): Promise<Property> {
   const propertyToSave: Property = {
     ...property,
     id: propertyId,
-    code: property.code || `NWI-${now.toString().slice(-4)}`,
-    title: (property.title || "Imóvel Nwani").trim(),
+    code: property.code || `VDD-${now.toString().slice(-4)}`,
+    title: (property.title || "Imóvel Victória D&D").trim(),
     createdAt: property.createdAt || now,
     updatedAt: now,
   };

@@ -258,7 +258,7 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen font-sans transition-colors duration-300 flex flex-col ${
+      className={`min-h-screen w-full max-w-full overflow-x-hidden font-sans transition-colors duration-300 flex flex-col ${
         theme === "dark" ? "bg-stone-950 text-stone-100" : "bg-stone-50 text-stone-900"
       }`}
     >
