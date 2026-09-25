@@ -174,11 +174,20 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({
         <div className="overflow-y-auto p-4 sm:p-6 space-y-6 flex-1">
           {/* Main Gallery with Lightbox/Thumbnails */}
           <div className="space-y-3">
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-950 border border-stone-800">
+            <div className="relative h-64 sm:h-96 md:h-[420px] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center">
+              {/* Ambient blur backdrop for seamless appearance across portrait and landscape photos */}
+              <img
+                src={images[activeImageIndex]}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-2xl scale-125 opacity-30 pointer-events-none"
+              />
+
+              {/* Foreground Full Image: 100% visible in full without cropping */}
               <img
                 src={images[activeImageIndex]}
                 alt={property.title}
-                className="w-full h-full object-cover"
+                className="relative z-[2] max-w-full max-h-full w-auto h-auto object-contain mx-auto drop-shadow-xl"
                 referrerPolicy="no-referrer"
               />
 

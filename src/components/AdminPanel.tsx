@@ -1963,8 +1963,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 {editingProperty.images && editingProperty.images.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                     {editingProperty.images.map((img, idx) => (
-                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-stone-800 bg-stone-950 group">
-                        <img src={img} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-stone-800 bg-stone-950 group flex items-center justify-center">
+                        <img src={img} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm opacity-20 pointer-events-none" referrerPolicy="no-referrer" />
+                        <img src={img} alt="" className="relative z-1 max-w-full max-h-full object-contain" referrerPolicy="no-referrer" />
                         <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity">
                           {idx !== 0 && (
                             <button

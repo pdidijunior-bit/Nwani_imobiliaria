@@ -92,7 +92,7 @@ export const INITIAL_HERO_SLIDES: HeroSlide[] = [
   {
     id: "slide-dd-official",
     title: "Victória D&D Soluções Imobiliárias",
-    subtitle: "Comprar e Vender imóvel em Angola? FICOU MUITO MAIS FÁCIL!!! Vendas, Trespasse, Avaliação e Permutas.",
+    subtitle: "Arrendamentos, Compras e Vendas de Imóveis em Angola com Rigor e Segurança Legal.",
     imageUrl: "/vivenda-bg.jpg",
     badge: "Soluções Imobiliárias Oficiais",
     order: 1,
@@ -109,7 +109,7 @@ export const INITIAL_MARQUEE_ITEMS: MarqueeItem[] = [
   },
   {
     id: "mq-2",
-    text: "Atendimento oficial: Av. 21 de Janeiro, Luanda • WhatsApp: +244 923 890 391",
+    text: "Atendimento oficial: Av. 21 de Janeiro, Luanda • WhatsApp: +244 921 068 197",
     order: 2,
     active: true,
   }

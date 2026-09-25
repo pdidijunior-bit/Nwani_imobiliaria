@@ -111,8 +111,8 @@ export const SobreNosModal: React.FC<SobreNosModalProps> = ({
               <span>Institucional • Victória D&D Soluções Imobiliárias</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
-              Comprar e Vender imóvel em Angola?
-              <span className="block text-red-600 font-black mt-1">FICOU MUITO MAIS FÁCIL!</span>
+              Excelência e Rigor Imobiliário
+              <span className="block text-red-600 font-black mt-1">Victória D&D Soluções Imobiliárias</span>
             </h2>
             <p className="text-slate-400 text-sm mt-3 leading-relaxed">
               Dedicados a transformar oportunidades imobiliárias em negócios sólidos, transparentes e legalmente seguros.

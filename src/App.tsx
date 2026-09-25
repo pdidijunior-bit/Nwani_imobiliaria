@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Marquee } from "./components/Marquee";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { PropertyGrid } from "./components/PropertyGrid";
@@ -50,8 +49,8 @@ import {
 import { INITIAL_SITE_SETTINGS } from "./data/seedData";
 import { ADMIN_DEFAULT_EMAIL } from "./constants/config";
 
-const FAVORITES_STORAGE_KEY = "nwani_favorites";
-const THEME_STORAGE_KEY = "nwani_theme_mode";
+const FAVORITES_STORAGE_KEY = "imoveis_favorites";
+const THEME_STORAGE_KEY = "imoveis_theme_mode";
 
 export default function App() {
   // Theme State
@@ -90,8 +89,16 @@ export default function App() {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chatAttachedProperty, setChatAttachedProperty] = useState<Property | null>(null);
 
-  // Navigation Filter
+  // Navigation Filter & Connected Search State
   const [catalogInitialBusinessType, setCatalogInitialBusinessType] = useState<"all" | BusinessType>("all");
+  const [activeSearchFilters, setActiveSearchFilters] = useState<{
+    query?: string;
+    businessType?: "all" | BusinessType;
+    category?: string;
+    province?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }>({});
 
   // Notifications / Toast
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -226,14 +233,20 @@ export default function App() {
     }
   };
 
-  const handleHeroSearch = (query: {
-    businessType: BusinessType;
+  const handleHeroSearch = (filters: {
+    query: string;
+    businessType?: BusinessType;
     category?: string;
     province?: string;
-    municipality?: string;
+    minPrice?: number;
     maxPrice?: number;
   }) => {
-    setCatalogInitialBusinessType(query.businessType);
+    setActiveSearchFilters(filters);
+    if (filters.businessType) {
+      setCatalogInitialBusinessType(filters.businessType);
+    } else {
+      setCatalogInitialBusinessType("all");
+    }
     const catalogElement = document.getElementById("catalog-section");
     if (catalogElement) {
       catalogElement.scrollIntoView({ behavior: "smooth" });
@@ -262,10 +275,7 @@ export default function App() {
         theme === "dark" ? "bg-stone-950 text-stone-100" : "bg-stone-50 text-stone-900"
       }`}
     >
-      {/* 1. Continuous Marquee Bar at the very top */}
-      <Marquee items={marqueeItems} />
-
-      {/* 2. Main Luxury Navbar */}
+      {/* 1. Main Luxury Navbar */}
       <Navbar
         currentTheme={theme}
         onToggleTheme={handleToggleTheme}
@@ -280,7 +290,7 @@ export default function App() {
         onNavigateToCatalog={handleNavigateToCatalog}
       />
 
-      {/* 3. Hero Section with dynamic slides & multi-criteria search */}
+      {/* 2. Hero Section with dynamic featured properties showcase */}
       <Hero
         slides={heroSlides}
         title={siteSettings?.title || "Victória D&D Soluções Imobiliárias"}
@@ -288,12 +298,14 @@ export default function App() {
         totalProperties={properties.length}
         totalProvinces={new Set(properties.map((p) => p.province).filter(Boolean)).size}
         categories={categories}
+        properties={properties}
+        onViewProperty={handleViewPropertyDetails}
         onSearch={handleHeroSearch}
         onExploreCatalog={() => document.getElementById("catalog-section")?.scrollIntoView({ behavior: "smooth" })}
         currentTheme={theme}
       />
 
-      {/* 4. Complete Property Catalog Grid */}
+      {/* 3. Complete Property Catalog Grid with Smart Search */}
       <PropertyGrid
         properties={properties}
         categories={categories}
@@ -302,6 +314,8 @@ export default function App() {
         onViewDetails={handleViewPropertyDetails}
         currentTheme={theme}
         initialBusinessType={catalogInitialBusinessType}
+        activeSearchFilters={activeSearchFilters}
+        onClearActiveSearchFilters={() => setActiveSearchFilters({})}
       />
 
       {/* 5. Apresentação Institucional Oficial Victória D&D */}

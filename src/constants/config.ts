@@ -19,13 +19,13 @@ export const HERO_HEADLINE = "Comprar e Vender imóvel em Angola? FICOU MUITO MA
 
 export const ADMIN_DEFAULT_EMAIL = "dd.solucoesimobiliaria91@gmail.com";
 
-export const PHONE_RAW = "+244923890391";
-export const PHONE_DISPLAY = "+244 923 890 391";
-export const PHONE_TEL_LINK = "tel:+244923890391";
+export const PHONE_RAW = "+244933765712";
+export const PHONE_DISPLAY = "+244 933 765 712";
+export const PHONE_TEL_LINK = "tel:+244933765712";
 
-export const WHATSAPP_RAW = "+244923890391";
-export const WHATSAPP_DISPLAY = "+244 923 890 391";
-export const WHATSAPP_LINK = "https://wa.me/244923890391";
+export const WHATSAPP_RAW = "+244921068197";
+export const WHATSAPP_DISPLAY = "+244 921 068 197";
+export const WHATSAPP_LINK = "https://wa.me/244921068197";
 
 export const EMAIL_OFFICIAL = "dd.solucoesimobiliaria91@gmail.com";
 
@@ -86,10 +86,10 @@ export const DEFAULT_HISTORY = DEFAULT_SOBRE_NOS;
 
 // Official Firebase Config
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDMM4grqAkTsLtFjKo-nJua-ScutfD62bY",
-  authDomain: "nwani-imoveis-932b3.firebaseapp.com",
-  projectId: "nwani-imoveis-932b3",
-  storageBucket: "nwani-imoveis-932b3.firebasestorage.app",
-  messagingSenderId: "773956533092",
-  appId: "1:773956533092:web:222f5af917077aebfb9871"
+  apiKey: "AIzaSyCzaCBmHHlmc5y_JXGVvzebfF47N4C9jkA",
+  authDomain: "a-panzo-imoveis.firebaseapp.com",
+  projectId: "a-panzo-imoveis",
+  storageBucket: "a-panzo-imoveis.firebasestorage.app",
+  messagingSenderId: "61143576541",
+  appId: "1:61143576541:web:18dd8e6d41f093fe71d034"
 };

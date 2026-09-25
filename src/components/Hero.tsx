@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import { Search, Building, SlidersHorizontal, MapPin, Sparkles, Shield, ArrowRight, MessageCircle, Phone } from "lucide-react";
-import { BusinessType, Category } from "../types";
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  Sparkles,
+  MapPin,
+  Bed,
+  Bath,
+  Maximize,
+  Eye,
+  MessageCircle,
+  Phone,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Building,
+  CheckCircle2
+} from "lucide-react";
+import { Property, BusinessType, Category } from "../types";
 import {
   COMPANY_NAME,
-  COMPANY_SLOGAN,
-  HERO_HEADLINE,
   WHATSAPP_LINK,
-  PHONE_DISPLAY,
   PHONE_TEL_LINK
 } from "../constants/config";
+import { formatCurrency, createPropertyWhatsAppLink } from "../utils/formatters";
 
 interface HeroProps {
   slides?: any[];
@@ -16,8 +28,10 @@ interface HeroProps {
   subtitle?: string;
   totalProperties?: number;
   totalProvinces?: number;
-  categories: Category[];
-  onSearch: (filters: {
+  categories?: Category[];
+  properties?: Property[];
+  onViewProperty?: (property: Property) => void;
+  onSearch?: (filters: {
     query: string;
     businessType?: BusinessType;
     category?: string;
@@ -34,17 +48,64 @@ export const Hero: React.FC<HeroProps> = ({
   subtitle,
   totalProperties = 0,
   totalProvinces = 0,
-  categories,
-  onSearch,
+  properties = [],
+  onViewProperty,
   onExploreCatalog,
 }) => {
-  const [query, setQuery] = useState("");
-  const [businessType, setBusinessType] = useState<BusinessType | "">("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedProvince, setSelectedProvince] = useState("");
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [minPrice, setMinPrice] = useState<number | undefined>();
-  const [maxPrice, setMaxPrice] = useState<number | undefined>();
+  // Filter featured properties for the animated showcase; fallback to first properties
+  const featuredList = useMemo(() => {
+    if (!properties || properties.length === 0) return [];
+    const featured = properties.filter((p) => p.isFeatured);
+    return featured.length > 0 ? featured : properties.slice(0, 6);
+  }, [properties]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<"next" | "prev">("next");
+  const [isPaused, setIsPaused] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
+
+  // Auto-slide every 4.5 seconds with pause on hover
+  useEffect(() => {
+    if (featuredList.length <= 1 || isPaused) return;
+
+    const timer = setInterval(() => {
+      setSlideDirection("next");
+      setCurrentIndex((prev) => (prev + 1) % featuredList.length);
+      setAnimKey((prev) => prev + 1);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, [featuredList.length, isPaused]);
+
+  // Reset index if list length changes and index is out of bounds
+  useEffect(() => {
+    if (currentIndex >= featuredList.length && featuredList.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [featuredList.length, currentIndex]);
+
+  const handlePrev = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (featuredList.length <= 1) return;
+    setSlideDirection("prev");
+    setCurrentIndex((prev) => (prev === 0 ? featuredList.length - 1 : prev - 1));
+    setAnimKey((prev) => prev + 1);
+  };
+
+  const handleNext = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (featuredList.length <= 1) return;
+    setSlideDirection("next");
+    setCurrentIndex((prev) => (prev + 1) % featuredList.length);
+    setAnimKey((prev) => prev + 1);
+  };
+
+  const handleDotClick = (index: number) => {
+    if (index === currentIndex) return;
+    setSlideDirection(index > currentIndex ? "next" : "prev");
+    setCurrentIndex(index);
+    setAnimKey((prev) => prev + 1);
+  };
 
   const handleExplore = () => {
     if (typeof onExploreCatalog === "function") {
@@ -54,46 +115,32 @@ export const Hero: React.FC<HeroProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch({
-      query,
-      businessType: businessType ? (businessType as BusinessType) : undefined,
-      category: selectedCategory || undefined,
-      province: selectedProvince || undefined,
-      minPrice: minPrice || undefined,
-      maxPrice: maxPrice || undefined,
-    });
-  };
+  const currentProperty = featuredList[currentIndex];
+  const whatsAppUrl = currentProperty
+    ? createPropertyWhatsAppLink(currentProperty.title, currentProperty.code)
+    : WHATSAPP_LINK;
 
   return (
     <section
       id="hero-section"
-      className="relative bg-slate-950 text-white overflow-hidden py-12 sm:py-16 lg:py-24 border-b border-slate-800 w-full max-w-full"
+      className="relative bg-slate-950 text-white overflow-hidden py-12 sm:py-16 lg:py-20 border-b border-slate-800 w-full max-w-full"
       style={{
-        backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.82) 0%, rgba(10, 15, 30, 0.90) 50%, rgba(2, 6, 23, 0.97) 100%), url('/vivenda-bg.jpg')",
+        backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.84) 0%, rgba(10, 15, 30, 0.92) 50%, rgba(2, 6, 23, 0.98) 100%), url('/vivenda-bg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center 30%",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "scroll",
       }}
     >
-      {/* Dynamic atmospheric subtle glow */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+      {/* Dynamic atmospheric subtle gold and cyan glow */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 -right-32 w-96 h-96 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-4xl mx-auto mb-10">
-          {/* Slogan & Category Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-red-500/40 text-red-400 text-xs font-bold tracking-widest uppercase mb-6 shadow-xl backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-red-500" />
-            <span>{COMPANY_SLOGAN}</span>
-          </div>
-
-          {/* Main Hero Headline from Image */}
+        {/* Main Hero Header */}
+        <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-4 drop-shadow-lg">
-            <span className="text-white block">{HERO_HEADLINE}</span>
-            <span className="block mt-2 text-red-600 text-2xl sm:text-4xl lg:text-5xl font-extrabold uppercase">
+            <span className="block text-white text-2xl sm:text-4xl lg:text-5xl font-extrabold uppercase">
               {title || COMPANY_NAME}
             </span>
           </h1>
@@ -103,209 +150,279 @@ export const Hero: React.FC<HeroProps> = ({
               "Encontre vivendas, apartamentos, escritórios, terrenos e oportunidades de investimento em Luanda e em todo o território nacional com rigor, agilidade e máxima segurança legal."}
           </p>
 
-          {/* Quick Direct Buttons */}
+          {/* Quick Direct Action Buttons */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a
               id="hero-quick-whatsapp"
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg transition-all hover:scale-105"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp: {PHONE_DISPLAY}</span>
+              <span>Fale Connosco</span>
             </a>
             <a
               id="hero-quick-call"
               href={PHONE_TEL_LINK}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-xs sm:text-sm backdrop-blur-md transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-xs sm:text-sm backdrop-blur-md transition-all hover:scale-105"
             >
-              <Phone className="w-4 h-4 text-red-400" />
-              <span>Ligar Diretamente</span>
+              <Phone className="w-4 h-4 text-amber-400" />
+              <span>Ligar Agora</span>
             </a>
           </div>
         </div>
 
-        {/* High-Precision Search Box */}
-        <div className="max-w-4xl mx-auto bg-slate-900/85 border border-slate-700/80 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-2xl">
-          {/* Quick Business Type Tabs */}
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 overflow-x-auto scrollbar-none w-full">
-            <button
-              type="button"
-              onClick={() => setBusinessType("")}
-              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                businessType === ""
-                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
-                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
-              }`}
-            >
-              Todos os Negócios
-            </button>
-            <button
-              type="button"
-              onClick={() => setBusinessType("Venda")}
-              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                businessType === "Venda"
-                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
-                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
-              }`}
-            >
-              Comprar
-            </button>
-            <button
-              type="button"
-              onClick={() => setBusinessType("Arrendamento")}
-              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                businessType === "Arrendamento"
-                  ? "bg-red-600 text-white shadow-md shadow-red-900/50"
-                  : "bg-slate-800/80 text-slate-300 hover:bg-slate-800"
-              }`}
-            >
-              Arrendar
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-              {/* Search text input */}
-              <div className="md:col-span-5 relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  id="hero-input-search"
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Bairro, condomínio, código D&D..."
-                  className="w-full pl-10 pr-4 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
-                />
+        {/* Animated Featured Properties Showcase (Replaces the redundant search bar div) */}
+        {featuredList.length > 0 && currentProperty && (
+          <div
+            className="max-w-4xl mx-auto bg-slate-900/90 border border-amber-500/40 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-2xl shadow-amber-500/10 relative overflow-hidden"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+          >
+            {/* Top Showcase Status Header & Controls */}
+            <div className="flex items-center justify-between border-b border-stone-800 pb-3 mb-4 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+                </span>
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Imóveis em Destaque Exclusivo</span>
+                </span>
               </div>
 
-              {/* Category Dropdown */}
-              <div className="md:col-span-3">
-                <select
-                  id="hero-select-category"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-3 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-colors"
-                >
-                  <option value="">Todas Categorias</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.name}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* Slide Counter & Arrow Navigation Controls */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold text-stone-400">
+                  {String(currentIndex + 1).padStart(2, "0")} / {String(featuredList.length).padStart(2, "0")}
+                </span>
 
-              {/* Province Dropdown */}
-              <div className="md:col-span-2">
-                <select
-                  id="hero-select-province"
-                  value={selectedProvince}
-                  onChange={(e) => setSelectedProvince(e.target.value)}
-                  className="w-full px-3 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-colors"
-                >
-                  <option value="">Província</option>
-                  <option value="Luanda">Luanda</option>
-                  <option value="Benguela">Benguela</option>
-                  <option value="Huíla">Huíla</option>
-                  <option value="Malanje">Malanje</option>
-                  <option value="Cuanza Sul">Cuanza Sul</option>
-                  <option value="Huambo">Huambo</option>
-                </select>
-              </div>
-
-              {/* Search Button */}
-              <div className="md:col-span-2">
-                <button
-                  id="hero-btn-search"
-                  type="submit"
-                  className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-red-950/40 cursor-pointer"
-                >
-                  <Search className="w-4 h-4" />
-                  <span>Buscar</span>
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="p-1.5 rounded-lg bg-slate-950/80 hover:bg-amber-500 hover:text-stone-950 text-stone-300 border border-stone-800 hover:border-amber-400 transition-colors cursor-pointer"
+                    title="Imóvel anterior"
+                    aria-label="Imóvel anterior"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="p-1.5 rounded-lg bg-slate-950/80 hover:bg-amber-500 hover:text-stone-950 text-stone-300 border border-stone-800 hover:border-amber-400 transition-colors cursor-pointer"
+                    title="Próximo imóvel"
+                    aria-label="Próximo imóvel"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Advanced Filters Toggle */}
-            <div className="flex items-center justify-between pt-1">
-              <button
-                type="button"
-                onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5 font-semibold transition-colors cursor-pointer"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5" />
-                <span>{showAdvanced ? "Ocultar filtros de valor" : "Filtrar por faixa de preço"}</span>
-              </button>
+            {/* Dynamic Animated Content Container with enter/exit keyframes */}
+            <div
+              key={`showcase-slide-${currentProperty.id}-${animKey}`}
+              className={slideDirection === "next" ? "animate-showcase-next" : "animate-showcase-prev"}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                {/* Photo Container: Dual layer for 100% full view without cropping */}
+                <div
+                  className="md:col-span-6 relative aspect-[16/10] sm:aspect-[4/3] md:aspect-[16/11] rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center border border-stone-800/80 cursor-pointer group"
+                  onClick={() => onViewProperty?.(currentProperty)}
+                >
+                  {/* Ambient backdrop glow */}
+                  <img
+                    src={currentProperty.images?.[0] || "/placeholder-property.jpg"}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 pointer-events-none"
+                  />
 
+                  {/* Foreground Photo 100% full-view */}
+                  <img
+                    src={currentProperty.images?.[0] || "/placeholder-property.jpg"}
+                    alt={currentProperty.title}
+                    className="relative z-10 max-w-full max-h-full w-auto h-auto object-contain transition-transform duration-500 group-hover:scale-105 drop-shadow-md"
+                    loading="eager"
+                  />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 z-20 pointer-events-none">
+                    <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-stone-950/90 text-amber-300 border border-amber-500/40 backdrop-blur-md">
+                      {currentProperty.businessType}
+                    </span>
+
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500 text-stone-950 shadow-sm">
+                      Destaque
+                    </span>
+                  </div>
+
+                  {/* Property Official Code */}
+                  <div className="absolute bottom-2.5 left-2.5 z-20 pointer-events-none">
+                    <span className="px-2 py-0.5 rounded bg-stone-950/85 backdrop-blur-md text-[10px] font-mono font-bold text-stone-300 border border-stone-800">
+                      {currentProperty.code}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Property Information & Action Details */}
+                <div className="md:col-span-6 flex flex-col justify-between h-full space-y-3.5">
+                  <div>
+                    {/* Location Badge */}
+                    <div className="flex items-center gap-1.5 text-xs text-amber-400 font-semibold mb-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <span className="truncate">
+                        {currentProperty.neighborhood}, {currentProperty.municipality} • {currentProperty.province}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      onClick={() => onViewProperty?.(currentProperty)}
+                      className="text-lg sm:text-xl font-bold text-white hover:text-amber-300 transition-colors line-clamp-2 cursor-pointer mb-2"
+                    >
+                      {currentProperty.title}
+                    </h3>
+
+                    {/* Description Excerpt */}
+                    <p className="text-xs sm:text-sm text-stone-300 line-clamp-2 leading-relaxed mb-3">
+                      {currentProperty.description}
+                    </p>
+
+                    {/* Specifications Row */}
+                    <div className="flex items-center gap-3 py-2 border-y border-stone-800/80 text-xs text-stone-300">
+                      {currentProperty.bedrooms > 0 && (
+                        <div className="flex items-center gap-1.5">
+                          <Bed className="w-3.5 h-3.5 text-amber-400" />
+                          <span>{currentProperty.bedrooms} Quartos</span>
+                        </div>
+                      )}
+                      {currentProperty.bathrooms > 0 && (
+                        <div className="flex items-center gap-1.5">
+                          <Bath className="w-3.5 h-3.5 text-amber-400" />
+                          <span>{currentProperty.bathrooms} Banheiros</span>
+                        </div>
+                      )}
+                      {currentProperty.area > 0 && (
+                        <div className="flex items-center gap-1.5">
+                          <Maximize className="w-3.5 h-3.5 text-amber-400" />
+                          <span>{currentProperty.area} m²</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Price & Action Buttons */}
+                  <div>
+                    <div className="flex items-baseline justify-between gap-2 mb-3">
+                      <div>
+                        <span className="font-serif-luxury text-2xl sm:text-3xl font-black text-amber-400 block leading-tight">
+                          {formatCurrency(currentProperty.price, currentProperty.currency)}
+                        </span>
+                        {currentProperty.businessType === "Arrendamento" && (
+                          <span className="text-[11px] text-stone-400">/mês</span>
+                        )}
+                      </div>
+
+                      {currentProperty.negotiable && (
+                        <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+                          Negociável
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onViewProperty?.(currentProperty)}
+                        className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-stone-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-500/25 active:scale-95 transition-all cursor-pointer"
+                      >
+                        <Eye className="w-4 h-4 stroke-[2.5]" />
+                        <span>Ver Imóvel</span>
+                      </button>
+
+                      <a
+                        href={whatsAppUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all"
+                        title="Conversar no WhatsApp"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Dots Navigation & Link to Catalog Search */}
+            <div className="mt-4 pt-3 border-t border-stone-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+              {/* Dot Indicators */}
+              <div className="flex items-center gap-1.5">
+                {featuredList.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleDotClick(idx)}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${
+                      idx === currentIndex
+                        ? "w-6 bg-gradient-to-r from-amber-500 to-amber-400"
+                        : "w-2 bg-stone-700 hover:bg-stone-500"
+                    }`}
+                    title={`Ir para destaque ${idx + 1}`}
+                    aria-label={`Ir para destaque ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Quick Jump link to catalog smart search */}
               <button
-                id="hero-btn-explore-catalog"
                 type="button"
                 onClick={handleExplore}
-                className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 font-semibold transition-colors cursor-pointer"
+                className="text-xs text-stone-400 hover:text-amber-300 flex items-center gap-1.5 font-semibold transition-colors cursor-pointer"
               >
-                <span>Explorar todo o catálogo</span>
-                <ArrowRight className="w-3 h-3" />
+                <span>Pesquisar e filtrar todos os {totalProperties} imóveis</span>
+                <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
               </button>
             </div>
-
-            {/* Collapsible Price Range inputs */}
-            {showAdvanced && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-800">
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">Preço Mínimo (Kz)</label>
-                  <input
-                    type="number"
-                    value={minPrice || ""}
-                    onChange={(e) => setMinPrice(e.target.value ? Number(e.target.value) : undefined)}
-                    placeholder="Ex: 50.000.000"
-                    className="w-full px-3 py-2 bg-slate-950/80 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">Preço Máximo (Kz)</label>
-                  <input
-                    type="number"
-                    value={maxPrice || ""}
-                    onChange={(e) => setMaxPrice(e.target.value ? Number(e.target.value) : undefined)}
-                    placeholder="Ex: 500.000.000"
-                    className="w-full px-3 py-2 bg-slate-950/80 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
-                  />
-                </div>
-              </div>
-            )}
-          </form>
-        </div>
+          </div>
+        )}
 
         {/* Real Dynamic Metrics */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
-            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
+          <div className="bg-slate-900/70 border border-stone-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-amber-400 block font-serif-luxury">
               {totalProperties}
             </span>
-            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Imóveis Ativos</span>
+            <span className="text-xs text-stone-400 uppercase font-semibold tracking-wider mt-1 block">Imóveis Ativos</span>
           </div>
 
-          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
-            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
+          <div className="bg-slate-900/70 border border-stone-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-amber-400 block font-serif-luxury">
               {totalProvinces}
             </span>
-            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Províncias</span>
+            <span className="text-xs text-stone-400 uppercase font-semibold tracking-wider mt-1 block">Províncias</span>
           </div>
 
-          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
-            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
+          <div className="bg-slate-900/70 border border-stone-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-amber-400 block font-serif-luxury">
               100%
             </span>
-            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">Legalidade & Rigor</span>
+            <span className="text-xs text-stone-400 uppercase font-semibold tracking-wider mt-1 block">Legalidade & Rigor</span>
           </div>
 
-          <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
-            <span className="text-2xl sm:text-3xl font-black text-red-500 block">
+          <div className="bg-slate-900/70 border border-stone-800/80 rounded-2xl p-4 text-center backdrop-blur-md">
+            <span className="text-2xl sm:text-3xl font-black text-amber-400 block font-serif-luxury">
               24h
             </span>
-            <span className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1 block">WhatsApp Ativo</span>
+            <span className="text-xs text-stone-400 uppercase font-semibold tracking-wider mt-1 block">WhatsApp Ativo</span>
           </div>
         </div>
       </div>

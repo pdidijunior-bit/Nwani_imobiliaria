@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Phone,
   Sun,
@@ -49,6 +49,18 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigateToCatalog,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open to prevent background jumps
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
   const handleClientAreaClick = (tab: "favorites" | "alerts" = "favorites") => {
     if (onOpenClientArea) {
@@ -287,43 +299,57 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer Menu - Full Screen, Zero Zoom Gap */}
+      {/* Mobile Drawer Menu - Full Screen, Non-cramped with Smooth Touch Scroll */}
       {mobileMenuOpen && (
         <div
           id="mobile-drawer"
-          className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-slate-950/98 backdrop-blur-2xl border-t border-slate-800 p-4 sm:p-6 flex flex-col justify-between z-50 overflow-y-auto w-full max-w-full"
+          className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-slate-950/98 backdrop-blur-2xl border-t border-slate-800 p-4 sm:p-6 flex flex-col gap-4 z-50 overflow-y-auto overscroll-contain w-full max-w-full pb-32"
         >
-          <div className="space-y-3">
-            <div className="pb-4 mb-2 border-b border-slate-800/80">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-red-500">
-                Victória D&D Soluções Imobiliárias
-              </span>
-            </div>
+          {/* Quick Direct Contacts */}
+          <div className="grid grid-cols-2 gap-2.5 pb-2 border-b border-slate-800/80">
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Fale Connosco</span>
+            </a>
+            <a
+              href={PHONE_TEL_LINK}
+              className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-100 font-semibold text-xs transition-colors"
+            >
+              <Phone className="w-4 h-4 text-red-500" />
+              <span>Ligar Agora</span>
+            </a>
+          </div>
 
+          <div className="space-y-2">
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("all"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <Building className="w-5 h-5 text-red-500" />
+              <Building className="w-5 h-5 text-red-500 shrink-0" />
               <span>Ver Catálogo Completo</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("Venda"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <Building className="w-5 h-5 text-red-500" />
+              <Building className="w-5 h-5 text-red-500 shrink-0" />
               <span>Imóveis para Comprar</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => onNavigateToCatalog?.("Arrendamento"))}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <KeyRound className="w-5 h-5 text-red-500" />
+              <KeyRound className="w-5 h-5 text-red-500 shrink-0" />
               <span>Imóveis para Arrendar</span>
             </button>
 
@@ -336,37 +362,37 @@ export const Navbar: React.FC<NavbarProps> = ({
                   else onOpenSobreNos?.();
                 });
               }}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <ShieldCheck className="w-5 h-5 text-red-500" />
-              <span>Apresentação Institucional D&D</span>
+              <ShieldCheck className="w-5 h-5 text-red-500 shrink-0" />
+              <span>Apresentação Institucional</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(onOpenSobreNos)}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <ShieldCheck className="w-5 h-5 text-red-500" />
-              <span>Sobre a Victória D&D</span>
+              <ShieldCheck className="w-5 h-5 text-red-500 shrink-0" />
+              <span>Sobre Nós</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(onOpenTermos)}
-              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center gap-3 py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
-              <FileText className="w-5 h-5 text-red-500" />
+              <FileText className="w-5 h-5 text-red-500 shrink-0" />
               <span>Termos de Uso e Legislação</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleNavClick(() => handleClientAreaClick("favorites"))}
-              className="w-full flex items-center justify-between py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium"
+              className="w-full flex items-center justify-between py-3 px-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-100 text-left font-medium active:bg-slate-800 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <UserCheck className="w-5 h-5 text-red-500" />
+                <UserCheck className="w-5 h-5 text-red-500 shrink-0" />
                 <span>Área do Cliente / Favoritos</span>
               </div>
               {favoritesCount > 0 && (
@@ -377,13 +403,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          <div className="pt-6 border-t border-slate-800 space-y-3">
-            <div className="flex items-center justify-between">
+          <div className="pt-4 border-t border-slate-800 space-y-3">
+            <div className="flex items-center justify-between px-1">
               <span className="text-xs text-slate-400">Alternar Tema</span>
               <button
                 type="button"
                 onClick={onToggleTheme}
-                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-red-400"
+                className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-red-400 active:scale-95 transition-transform"
+                aria-label="Alternar Tema"
               >
                 {currentTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>

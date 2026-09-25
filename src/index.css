@@ -117,3 +117,34 @@ input, select, textarea, button, a {
   scrollbar-width: none;
 }
 
+/* Animated Showcase Slide transitions */
+@keyframes showcaseSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes showcaseSlideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.animate-showcase-next {
+  animation: showcaseSlideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-showcase-prev {
+  animation: showcaseSlideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

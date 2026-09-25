@@ -24,15 +24,15 @@ import {
 } from "../data/seedData";
 import { getSafeLocalStorage, setSafeLocalStorage } from "../utils/formatters";
 
-const LOCAL_STORAGE_PROPERTIES_KEY = "nwani_properties_cache";
-const LOCAL_STORAGE_SETTINGS_KEY = "nwani_settings_cache";
-const LOCAL_STORAGE_CATEGORIES_KEY = "nwani_categories_cache";
-const LOCAL_STORAGE_LOCATIONS_KEY = "nwani_locations_cache";
-const LOCAL_STORAGE_CONVERSATIONS_KEY = "nwani_conversations_cache";
-const LOCAL_STORAGE_ALERTS_KEY = "nwani_alerts_cache";
-const LOCAL_STORAGE_NOTIFS_KEY = "nwani_notifs_cache";
-const LOCAL_STORAGE_SLIDES_KEY = "nwani_slides_cache";
-const LOCAL_STORAGE_MARQUEE_KEY = "nwani_marquee_cache";
+const LOCAL_STORAGE_PROPERTIES_KEY = "imoveis_properties_cache";
+const LOCAL_STORAGE_SETTINGS_KEY = "imoveis_settings_cache";
+const LOCAL_STORAGE_CATEGORIES_KEY = "imoveis_categories_cache";
+const LOCAL_STORAGE_LOCATIONS_KEY = "imoveis_locations_cache";
+const LOCAL_STORAGE_CONVERSATIONS_KEY = "imoveis_conversations_cache";
+const LOCAL_STORAGE_ALERTS_KEY = "imoveis_alerts_cache";
+const LOCAL_STORAGE_NOTIFS_KEY = "imoveis_notifs_cache";
+const LOCAL_STORAGE_SLIDES_KEY = "imoveis_slides_cache";
+const LOCAL_STORAGE_MARQUEE_KEY = "imoveis_marquee_cache";
 
 // ---------------- PROPERTIES ---------------- //
 
@@ -57,7 +57,7 @@ export function subscribeToProperties(
     }
   };
   if (typeof window !== "undefined") {
-    window.addEventListener("nwani:properties-updated", handleLocalUpdate);
+    window.addEventListener("imoveis:properties-updated", handleLocalUpdate);
   }
 
   try {
@@ -100,7 +100,7 @@ export function subscribeToProperties(
     );
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener("nwani:properties-updated", handleLocalUpdate);
+        window.removeEventListener("imoveis:properties-updated", handleLocalUpdate);
       }
       unsubscribe();
     };
@@ -110,7 +110,7 @@ export function subscribeToProperties(
     onData(cached);
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener("nwani:properties-updated", handleLocalUpdate);
+        window.removeEventListener("imoveis:properties-updated", handleLocalUpdate);
       }
     };
   }
@@ -147,7 +147,7 @@ export async function saveProperty(property: Property): Promise<Property> {
 
   // 2. Dispatch custom event for immediate reactivity
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("nwani:properties-updated", { detail: updatedList }));
+    window.dispatchEvent(new CustomEvent("imoveis:properties-updated", { detail: updatedList }));
   }
 
   // 3. Write directly to Firestore
@@ -169,7 +169,7 @@ export async function deleteProperty(propertyId: string): Promise<void> {
   setSafeLocalStorage(LOCAL_STORAGE_PROPERTIES_KEY, updatedList);
 
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("nwani:properties-updated", { detail: updatedList }));
+    window.dispatchEvent(new CustomEvent("imoveis:properties-updated", { detail: updatedList }));
   }
 
   try {
@@ -508,9 +508,7 @@ export function subscribeToNotifications(
         if (!snap.empty) {
           const items = snap.docs.map((d) => {
             const data = d.data() as any;
-            const title = (data.title || "").replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária");
-            const message = (data.message || "").replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária");
-            return { id: d.id, ...data, title, message } as SystemNotification;
+            return { id: d.id, ...data } as SystemNotification;
           });
           items.sort((a, b) => b.createdAt - a.createdAt);
           setSafeLocalStorage(LOCAL_STORAGE_NOTIFS_KEY, items);
@@ -518,15 +516,11 @@ export function subscribeToNotifications(
         } else {
           const rawCached = getSafeLocalStorage<SystemNotification[]>(LOCAL_STORAGE_NOTIFS_KEY, []);
           const validCached = rawCached.length > 0
-            ? rawCached.map((n) => ({
-                ...n,
-                title: n.title?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária"),
-                message: n.message?.replace(/Nwani Imóveis/gi, "Victória D&D Imobiliária"),
-              }))
+            ? rawCached
             : [
                 {
                   id: "notif-welcome",
-                  title: "Bem-vindo à Victória D&D Imobiliária",
+                  title: "Bem-vindo à Imobiliária",
                   message: "Conheça o nosso portfólio oficial de imóveis em Angola. Comprar e Vender ficou muito mais fácil!",
                   createdAt: Date.now(),
                   read: false,

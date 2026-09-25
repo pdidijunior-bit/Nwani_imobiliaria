@@ -70,12 +70,21 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
           : "bg-white border-stone-200 hover:border-amber-400 hover:shadow-xl"
       }`}
     >
-      {/* Image Container with Badges */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-stone-950">
+      {/* Image Container with Badges - Dual layer to display photo 100% in full without cropping */}
+      <div className="relative aspect-[16/10] overflow-hidden bg-slate-950 flex items-center justify-center">
+        {/* Ambient blurred backdrop so vertical/square photos blend smoothly without black cuts */}
+        <img
+          src={images[activeImageIndex]}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 pointer-events-none"
+        />
+
+        {/* Foreground Photo: Guaranteed 100% full view on all mobile and desktop devices */}
         <img
           src={images[activeImageIndex]}
           alt={property.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform"
+          className="relative z-[2] max-w-full max-h-full w-auto h-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-500 will-change-transform drop-shadow-md"
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"

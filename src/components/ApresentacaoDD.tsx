@@ -75,9 +75,9 @@ export const ApresentacaoDD: React.FC<ApresentacaoDDProps> = ({
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
-            <span>Comprar e Vender imóvel em Angola?</span>
+            <span>Soluções Imobiliárias Integradas</span>
             <span className="block text-red-600 font-black mt-1">
-              FICOU MUITO MAIS FÁCIL!!!
+              Com Rigor, Agilidade e Confiança
             </span>
           </h2>
 
