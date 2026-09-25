@@ -47,7 +47,6 @@ import {
   setSafeLocalStorage
 } from "./utils/formatters";
 import { INITIAL_SITE_SETTINGS } from "./data/seedData";
-import { ADMIN_DEFAULT_EMAIL } from "./constants/config";
 
 const FAVORITES_STORAGE_KEY = "imoveis_favorites";
 const THEME_STORAGE_KEY = "imoveis_theme_mode";
@@ -165,7 +164,7 @@ export default function App() {
 
     const unsubAuth = onAuthStateChange((user) => {
       if (user) {
-        setCurrentUserEmail(user.email || ADMIN_DEFAULT_EMAIL);
+        setCurrentUserEmail(user.email || "");
         setIsAdminUser(true);
       } else {
         setCurrentUserEmail(null);

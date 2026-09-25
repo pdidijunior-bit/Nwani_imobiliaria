@@ -22,7 +22,6 @@ import {
   loginAdminWithVerification,
   formatFirebaseAuthError
 } from "../services/authService";
-import { ADMIN_DEFAULT_EMAIL } from "../constants/config";
 import { Logo } from "./Logo";
 
 interface AdminLoginModalProps {
@@ -36,8 +35,7 @@ interface AdminLoginModalProps {
 
 /**
  * Modal Unificado de Autenticação (Login, Cadastro & Acesso Administrativo D&D)
- * Atende estritamente às Tarefas 1, 2, 3 e 4 com efeitos de transparência blur
- * e verificação de privilégios no Firestore.
+ * Autenticação segura sem exposição de credenciais ou dados sensíveis.
  */
 export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   isOpen,
@@ -50,9 +48,9 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   // Modos de visualização: "login" (usuário comum), "register" (cadastro), "admin" (acesso restrito)
   const [authMode, setAuthMode] = useState<"login" | "register" | "admin">(initialMode);
   
-  // Campos de formulário
+  // Campos de formulário - NUNCA pré-preenchidos por questões de segurança
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState(initialMode === "admin" ? ADMIN_DEFAULT_EMAIL : "");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   
@@ -65,7 +63,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
 
   const resetForm = () => {
     setNome("");
-    setEmail(authMode === "admin" ? ADMIN_DEFAULT_EMAIL : "");
+    setEmail("");
     setPassword("");
     setErrorMsg("");
     setSuccessMsg("");
@@ -76,9 +74,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
     setErrorMsg("");
     setSuccessMsg("");
     setAuthMode(mode);
-    if (mode === "admin" && !email) {
-      setEmail(ADMIN_DEFAULT_EMAIL);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -277,20 +272,9 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
 
           {/* Campo E-mail */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-slate-300">
-                Endereço de E-mail
-              </label>
-              {authMode === "admin" && (
-                <button
-                  type="button"
-                  onClick={() => setEmail(ADMIN_DEFAULT_EMAIL)}
-                  className="text-[11px] text-red-400 hover:text-red-300 transition-colors cursor-pointer"
-                >
-                  Preencher E-mail Oficial
-                </button>
-              )}
-            </div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              Endereço de E-mail
+            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Mail className="w-4 h-4" />
@@ -300,8 +284,9 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={authMode === "admin" ? ADMIN_DEFAULT_EMAIL : "seu-email@exemplo.com"}
+                placeholder="seu-email@exemplo.com"
                 required
+                autoComplete="email"
                 className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl bg-slate-800/60 border border-slate-700/70 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all backdrop-blur-sm"
               />
             </div>
@@ -321,9 +306,10 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Mínimo 6 caracteres (ex: admin123)"
+                placeholder="Palavra-passe"
                 required
                 minLength={6}
+                autoComplete="current-password"
                 className="w-full pl-10 pr-10 py-2.5 text-sm rounded-xl bg-slate-800/60 border border-slate-700/70 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all backdrop-blur-sm"
               />
               <button
@@ -336,22 +322,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
               </button>
             </div>
           </div>
-
-          {/* Dica para o Administrador */}
-          {authMode === "admin" && (
-            <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/60 text-[11px] text-slate-300 space-y-1">
-              <div className="flex items-center gap-1.5 text-red-400 font-semibold">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Credenciais Oficiais da D&D</span>
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                • <strong>E-mail:</strong> <code className="text-red-300">{ADMIN_DEFAULT_EMAIL}</code>
-              </p>
-              <p className="text-slate-400 leading-relaxed">
-                • <strong>Senha:</strong> Caso seja o seu primeiro acesso ao sistema, introduza qualquer senha com pelo menos 6 caracteres (ex: <code className="text-red-300">admin123</code>). O sistema registrará e ativará automaticamente o acesso de Administrador no Firebase.
-              </p>
-            </div>
-          )}
 
           {/* Botão Principal de Submissão */}
           <button
